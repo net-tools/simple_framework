@@ -1,4 +1,13 @@
 <?php
+/**
+ * Json
+ *
+ * @author Pierre - dev@net-tools.ovh
+ * @license MIT
+ */
+
+
+
 
 namespace Nettools\Simple_Framework\ReturnedValues;
 

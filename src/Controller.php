@@ -1,4 +1,13 @@
 <?php
+/**
+ * Controller
+ *
+ * @author Pierre - dev@net-tools.ovh
+ * @license MIT
+ */
+
+
+
 
 namespace Nettools\Simple_Framework;
 
@@ -9,7 +18,9 @@ namespace Nettools\Simple_Framework;
  * Base class for application controller ; command class is defined from the CMD request parameter
  *
  * In app registry, the following parameters are defined :
+ *
  * - controller.userDefaultCommand : default command in user namespace if no command in request
+ *
  */
 abstract class Controller {
     

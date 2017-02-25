@@ -1,4 +1,13 @@
 <?php
+/**
+ * Application
+ *
+ * @author Pierre - dev@net-tools.ovh
+ * @license MIT
+ */
+
+
+
 
 namespace Nettools\Simple_Framework;
 
@@ -8,7 +17,9 @@ namespace Nettools\Simple_Framework;
  * Class for application handling
  *
  * In app registry, the following parameters are defined :
+ *
  * - application.exceptionHandler : classname for exception handler
+ *
  */
 class Application {
 
