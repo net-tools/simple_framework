@@ -42,12 +42,12 @@ abstract class Download extends Value {
      */
     public function output()
     {
-        $this->addHeader("Content-Type: " . $this->_contentType . "; name=\"" . $this->_filename . "\"");
-        $this->addHeader("Content-Transfer-Encoding: binary");
-        $this->addHeader("Content-Disposition: attachment; filename=\"" . $this->_filename . "\"");
-        $this->addHeader("Expires: 0");
-        $this->addHeader("Cache-Control: no-cache, must-revalidate");
-        $this->addHeader("Pragma: no-cache");
+        header("Content-Type: " . $this->_contentType . "; name=\"" . $this->_filename . "\"");
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Disposition: attachment; filename=\"" . $this->_filename . "\"");
+        header("Expires: 0");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: no-cache");
         
         $this->doOutput();
         die();
