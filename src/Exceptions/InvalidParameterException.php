@@ -1,0 +1,15 @@
+<?php
+
+namespace Nettools\Simple_Framework\Exceptions;
+
+
+
+/**
+ * Class for an exception raised when a method parameter is invalid
+ */
+class InvalidParameterException extends ApplicationException
+{
+}
+
+
+?>

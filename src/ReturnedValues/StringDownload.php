@@ -1,0 +1,21 @@
+<?php
+
+namespace Nettools\Simple_Framework\ReturnedValues;
+
+
+
+
+/**
+ * Class for a data download returned by a command
+*/
+class DataDownload extends Download {
+    
+    public function doOutput()
+    {
+        echo $this->_value;
+    }
+}
+
+
+
+?>
