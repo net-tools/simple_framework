@@ -8,7 +8,7 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 /**
  * Class for a data download returned by a command
 */
-class DataDownload extends Download {
+class StringDownload extends Download {
     
     public function doOutput()
     {
