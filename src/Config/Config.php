@@ -5,7 +5,7 @@ namespace Nettools\Simple_Framework\Config;
 
 
 /**
- * Abstract base class for app config
+ * Abstract base class for config
  */
 abstract class Config {
     
@@ -54,9 +54,19 @@ abstract class Config {
 
     
     /** 
-     * Commit read/write registry to storage
+     * Commit read/write registry to storage (only if not readonly)
      */
-    abstract public function commit();
+    public function commit()
+    {
+        if ( !$this->isReadOnly() )
+            $this->doCommit();
+    }
+
+    
+    /** 
+     * Abstract method to commit read/write registry to storage
+     */
+    abstract function doCommit();
 
     
     /** 
@@ -88,7 +98,7 @@ abstract class Config {
      * 
      * @return string Json-string of config data
      */
-     abstract public function asJson();    
+    abstract public function asJson();    
 }
 
 
