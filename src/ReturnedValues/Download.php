@@ -9,7 +9,7 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 /**
  * Class for a Download value returned by a command
 */
-class Download extends Value {
+abstract class Download extends Value {
     
     // value or file to be outputed to the browser for user download
     protected $_value = NULL;
