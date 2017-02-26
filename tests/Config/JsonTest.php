@@ -7,6 +7,22 @@ use \Nettools\Simple_Framework\Config\Json;
 
 class JsonTest extends PHPUnit\Framework\TestCase
 {
+    public function setUp()
+    {
+        $f = fopen('/tmp/net-tools-phpunit-' . basename(__FILE__), 'w');
+        fwrite($f, '{"prop1":"value1","prop2":false,"prop3":13}');
+        fclose($f);
+    }
+    
+    
+    public function tearDown()
+    {
+        $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
+        if ( file_exists($f) )
+            unlink($f);
+    }
+    
+
     /**
      * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
      */
@@ -19,6 +35,30 @@ class JsonTest extends PHPUnit\Framework\TestCase
         // not allowed since Config object is read-only
         $o->property = value;
     }
+    
+
+    /**
+     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
+     */
+    public function testFileReadonlyByDefault()
+    {
+        // by default, the Config object is readonly
+        $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
+        $o = new Json($f);
+        $o->commit();
+    }
+    
+
+    public function testFile()
+    {
+        // by default, the Config object is readonly
+        $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
+        $o = new Json($f, false);
+        $o->prop4 = 'p4';
+        $o->commit();
+        $this->assertEquals('{"prop1":"value1","prop2":false,"prop3":13,"prop4":"p4"}', file_get_contents($f));
+    }
+    
     
    
 }
