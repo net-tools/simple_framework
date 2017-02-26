@@ -74,7 +74,7 @@ abstract class Config {
     /** 
      * Abstract method to commit read/write registry to storage
      */
-    abstract function doCommit();
+    abstract protected function doCommit();
 
     
     /** 

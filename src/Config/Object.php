@@ -50,7 +50,7 @@ class Object extends Config{
     }
 
     
-    public function doCommit()
+    protected function doCommit()
     {
         // a Config\Object is readonly
         throw new \Nettools\Simple_Framework\Exceptions\NotAuthorizedException('Object config is readonly');

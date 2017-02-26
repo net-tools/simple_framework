@@ -34,12 +34,6 @@ class ObjectTest extends PHPUnit\Framework\TestCase
         $o = new Object((object) array('property'=>'value'));
         $this->assertEquals('value', $o->property);
         $this->assertEquals(NULL, $o->no_property);
-        
-        $o->property = 'value2';
-        $this->assertEquals('value2', $o->property);
-                
-        $this->assertEquals('{"property":"value2"}', $o->asJson());
-        return $o;
     }
     
     
@@ -54,13 +48,10 @@ class ObjectTest extends PHPUnit\Framework\TestCase
     }
 
 
-    /**
-     * @depends testObject
-     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
-     */
-    public function testCommit(Object $o)
+    public function testCommit()
     {
-        $o->doCommit();        
+        $o = new Object((object) array('property'=>'value'));
+        $o->commit();        // nothing done in Config::commit since Object is readonly
     }
     
     

@@ -56,7 +56,7 @@ class Json extends Config {
     }
 
     
-    public function doCommit()
+    protected function doCommit()
     {
         $f = fopen($this->_path, 'w');
         fwrite($f, $this->asJson());
