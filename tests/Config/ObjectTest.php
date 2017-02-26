@@ -9,7 +9,7 @@ use \Nettools\Simple_Framework\Config\Object;
 class ObjectTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException TypeError
      */
     public function testObjectNoParameter()
     {
@@ -19,7 +19,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
     
     
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException TypeError
      */
     public function testObjectArray()
     {
