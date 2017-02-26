@@ -11,7 +11,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException TypeError
      */
-    public function testObjectNoParameter()
+    public function testNoParameter()
     {
         // no parameter to constructor
         $o = new Object();
@@ -21,7 +21,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException TypeError
      */
-    public function testObjectArray()
+    public function testArray()
     {
         // parameter is not a Stdclass object
         $o = new Object(array('property'=>'value'));
@@ -34,9 +34,25 @@ class ObjectTest extends PHPUnit_Framework_TestCase
         $o = new Object((object) array('property'=>'value'));
         $this->assertEquals('value', $o->property);
         $this->assertEquals(NULL, $o->no_property);
+        
+        $o->property = 'value2';
+        $this->assertEquals('value2', $o->property);
+                
+        $this->assertEquals('{"property":"value2"}', $o->asJson());
     }
 
+
+    /**
+     * @depends testObject
+     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
+     */
+    public function testCommit(Object $o)
+    {
+        $o->doCommit();        
+    }
     
+    
+   
 }
 
 ?>
