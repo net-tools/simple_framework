@@ -39,6 +39,7 @@ class ObjectTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('value2', $o->property);
                 
         $this->assertEquals('{"property":"value2"}', $o->asJson());
+        return $o;
     }
 
 

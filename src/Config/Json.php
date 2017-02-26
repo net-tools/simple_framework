@@ -24,7 +24,7 @@ class Json extends Config {
     
     public function asJson()
     {
-        return json_encode($this->_json, JSON_PRETTY_PRINT);
+        return json_encode($this->_json);
     }
     
     
