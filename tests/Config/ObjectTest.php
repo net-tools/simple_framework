@@ -41,6 +41,17 @@ class ObjectTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('{"property":"value2"}', $o->asJson());
         return $o;
     }
+    
+    
+    /**
+     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
+     */
+    public function testObjectReadonly()
+    {
+        // parameter is not a Stdclass object
+        $o = new Object((object) array('property'=>'value'));
+        $o->property = 'value2';    // always readonly
+    }
 
 
     /**

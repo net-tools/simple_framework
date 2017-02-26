@@ -32,6 +32,7 @@ class Object extends Config{
      */
     public function __construct(\Stdclass $obj)
     {
+        // an Object config is always read-only
         parent::__construct(true);
         $this->_configObject = $obj;
     }
@@ -45,7 +46,7 @@ class Object extends Config{
     
     public function set($k, $v)
     {
-        $this->_configObject->$k = $v;
+        throw new \Nettools\Simple_Framework\Exceptions\NotAuthorizedException('Object config is readonly');
     }
 
     

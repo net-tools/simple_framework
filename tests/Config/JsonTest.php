@@ -45,7 +45,7 @@ class JsonTest extends PHPUnit\Framework\TestCase
         // by default, the Config object is readonly
         $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
         $o = new Json($f);
-        $o->prop4 = '4';
+        $o->prop4 = '4';    // exception here, setting a property is not allowed on readonly
     }
     
 
