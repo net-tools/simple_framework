@@ -6,7 +6,7 @@ use \Nettools\Simple_Framework\Config\Object;
 
 
 
-class ObjectTest extends PHPUnit_Framework_TestCase
+class ObjectTest extends PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException TypeError

@@ -5,7 +5,7 @@ use \Nettools\Simple_Framework\Config\Json;
 
 
 
-class JsonTest extends PHPUnit_Framework_TestCase
+class JsonTest extends PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
