@@ -159,7 +159,9 @@ abstract class Controller {
                 throw new Exceptions\UnknownReturnException("Return value for command '" . $cmd->getCommandName() . "' is unknown or not a ReturnedValues\\Value class.");
 
             // do command output (only used by ReturnedValues\Json and ReturnedValues\Download)
+            $ret->headers();
             $ret->output();
+            $ret->terminateOutput();
             return $ret;
         }
         catch(\Throwable $e)

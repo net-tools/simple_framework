@@ -54,14 +54,31 @@ class Json extends Value {
 
     
     /**
-     * Do the output of the Json value, and halts the script
+     * Send headers for xmlhttp response in json
+     */
+    public function headers()
+    {
+        NetworkingHelper::sendXmlHttpResponseHeaders();
+    }
+    
+    
+    /**
+     * Do the output of the Json value
      */
     public function output()
     {
-        NetworkingHelper::sendXmlHttpResponseHeaders();
-        
-        die($this->_value);
+        echo $this->_value;
     }
+    
+    
+    /**
+     * Terminate the output of the value on stdout ; for example, Download or Json return value halt the script
+     */
+    function terminateOutput()
+    {     
+        die();
+    }
+    
 }
 
 

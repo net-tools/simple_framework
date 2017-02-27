@@ -40,16 +40,10 @@ abstract class Download extends Value {
     }
     
     
-    /** 
-     * Method to output the value ; to implement in child classes ; data should be outputed directly, not as a return function value
-     */
-    abstract function doOutput();
-    
-    
     /**
-     * Do the output of the Download value, and halts the script
+     * Output headers for a download
      */
-    public function output()
+    public function headers()
     {
         header("Content-Type: " . $this->_contentType . "; name=\"" . $this->_filename . "\"");
         header("Content-Transfer-Encoding: binary");
@@ -57,8 +51,14 @@ abstract class Download extends Value {
         header("Expires: 0");
         header("Cache-Control: no-cache, must-revalidate");
         header("Pragma: no-cache");
-        
-        $this->doOutput();
+    }
+    
+    
+    /**
+     * Terminate the output of the value on stdout ; for example, Download or Json return value halt the script
+     */
+    function terminateOutput()
+    {        
         die();
     }
 }

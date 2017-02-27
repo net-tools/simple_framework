@@ -19,7 +19,7 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 */
 class FileDownload extends Download {
     
-    public function doOutput()
+    public function output()
     {
         readfile($this->_value);
     }

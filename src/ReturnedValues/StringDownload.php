@@ -19,7 +19,7 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 */
 class StringDownload extends Download {
     
-    public function doOutput()
+    public function output()
     {
         echo $this->_value;
     }

@@ -37,9 +37,26 @@ abstract class Value {
     
     
     /**
-     * Do the output of the value
+     * Do the output of the value on stdout
      */
     abstract function output();
+    
+    
+    /**
+     * Do the headers output on stdout, if required ; for example, Download return value send headers with Mimetype and suggested filename
+     */
+    public function headers()
+    {
+        
+    }
+    
+    
+    /**
+     * Terminate the output of the value on stdout ; for example, Download or Json return value halt the script
+     */
+    function terminateOutput()
+    {        
+    }
     
     
     /**
