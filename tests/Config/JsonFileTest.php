@@ -1,6 +1,6 @@
 <?php
 
-use \Nettools\Simple_Framework\Config\Json;
+use \Nettools\Simple_Framework\Config\JsonFile;
 
 
 
