@@ -6,7 +6,7 @@ use \Nettools\Simple_Framework\ReturnedValues\Json;
 
 
 
-class JsonTest extends PHPUnit\Framework\TestCase
+class JsonValueTest extends PHPUnit\Framework\TestCase
 {
     public function testValue()
     {
