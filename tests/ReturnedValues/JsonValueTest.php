@@ -33,13 +33,12 @@ class JsonValueTest extends PHPUnit\Framework\TestCase
     }
     
     
-/*    public function testNoOutput()
+    public function testOutput()
     {
         $this->expectOutputString('{"prop":"value"}');
         $v = new Json('{"prop":"value"}');
         $v->output();      
     }
-*/    
     
  
 }

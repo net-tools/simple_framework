@@ -21,6 +21,9 @@ class FileDownload extends Download {
     
     public function output()
     {
+        if ( !file_exists($this->_value) )
+            throw \Nettools\Simple_Framework\Exceptions\InvalidParameterException("File '$this->_value' not found.");
+            
         readfile($this->_value);
     }
 }
