@@ -34,9 +34,15 @@ class Request {
      *
      * @param string[] $params Request parameters as associative array
      * @param FileUploadRequest[] $fileUploads Associative array of FileUploadRequest objects describing file uploads
+     * @throws Exceptions\InvalidParameterException Thrown if parameter $params or $fileUploads parameters are not arrays
      */
     public function __construct($params, $fileUploads = array())
     {
+        if ( !is_array($params) )
+            throw new Exceptions\InvalidParameterException("'params' parameter is not an array.");
+        if ( !is_array($fileUploads) )
+            throw new Exceptions\InvalidParameterException("'fileUploads' parameter is not an array.");
+
         $this->_params = $params;
         $this->_fileUploads = $fileUploads;
     }
@@ -47,9 +53,13 @@ class Request {
      * 
      * @param string $k Parameter name
      * @return bool Returns true if parameter $k exists
+     * @throws Exceptions\InvalidParameterException Thrown if parameter $k is not a string
      */
     public function test($k)
     {
+        if ( !is_string($k) )
+            throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
+        
         return !is_null($this->_params[$k]);
     }
     
@@ -79,10 +89,14 @@ class Request {
      *
      * @param string $k Parameter name
      * @return bool Returns true if a file upload parameter named $k has been sent
+     * @throws Exceptions\InvalidParameterException Thrown if parameter $k is not a string
      */
 	function testFileUpload($k)
 	{
-		return !is_null($this->_fileUploads[$k]);
+        if ( !is_string($k) )
+            throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
+
+        return !is_null($this->_fileUploads[$k]);
 	}
     
     
@@ -111,9 +125,13 @@ class Request {
      * 
      * @param string $k Parameter name
      * @return string Parameter value
+     * @throws Exceptions\InvalidParameterException Thrown if parameter $k is not a string
      */
     public function get($k)
     {
+        if ( !is_string($k) )
+            throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
+        
         return $this->_params[$k];
     }
     
@@ -123,9 +141,13 @@ class Request {
      * 
      * @param string $k Parameter name
      * @return FileUploadRequest FileUploadRequest object
+     * @throws Exceptions\InvalidParameterException Thrown if parameter $k is not a string
      */
     public function getFileUpload($k)
     {
+        if ( !is_string($k) )
+            throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
+
         return $this->_fileUploads[$k];
     }
     
@@ -135,6 +157,7 @@ class Request {
      * 
      * @param string $k Parameter name
      * @return string Parameter value
+     * @throws Exceptions\InvalidParameterException Thrown if parameter $k is not a string
      */
     public function __get($k)
     {
