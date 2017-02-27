@@ -44,9 +44,15 @@ class Registry {
      * Constructor
      *
      * @param Config\Config[] $registries Array of Config\Config objects
+     * @throws Exceptions\InvalidParameterException Thrown if one of the registries doesn't inherit from Config\Config
      */
     public function __construct($registries = array())
     {
+        // check all registries inherit from Config\Config
+        foreach ( $registries as $k=>$reg )
+            if ( !($reg instanceof Config\Config) )
+                throw new Exceptions\InvalidParameterException("Registry '$k' does not inherit from Config\\Config.");
+                
         $this->_registries = $registries;
     }
     
