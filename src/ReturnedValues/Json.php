@@ -33,13 +33,25 @@ class Json extends Value {
      * 
      * @param string $value Json value to be returned (string format)
      * @param bool $successful Is value successful ? By default, yes
+     * @throws \Nettools\Simple_Framework\Exceptions\InvalidParameterException Thrown if $value is not a json-formatted string
      */
     public function __construct($value, $successful = true)
     {
         parent::__construct($successful);
+        
+        // check value is in json format
+        if ( is_null(json_decode($value)) )
+            throw new \Nettools\Simple_Framework\Exceptions\InvalidParameterException('Json returned value is not properly formatted.');
+        
         $this->_value = $value;
     }
     
+    
+    public function __toString()
+    {
+        return $this->_value;
+    }
+
     
     /**
      * Do the output of the Json value, and halts the script

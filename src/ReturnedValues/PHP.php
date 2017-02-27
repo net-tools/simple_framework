@@ -43,7 +43,7 @@ class PHP extends Value {
     
     public function __toString()
     {
-        return $this->_value ? $this->_value : '';
+        return $this->_value ? ''.$this->_value : '';
     }
 }
 
