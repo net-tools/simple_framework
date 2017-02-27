@@ -5,7 +5,7 @@ use \Nettools\Simple_Framework\Config\Json;
 
 
 
-class JsonTest extends PHPUnit\Framework\TestCase
+class JsonFileTest extends PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
