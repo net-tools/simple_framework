@@ -30,10 +30,10 @@ class Object extends Config{
      *
      * @param \Stdclass $obj Contains a litteral object with config data
      */
-    public function __construct(\Stdclass $obj)
+    public function __construct(\Stdclass $obj, $readonly = true)
     {
         // an Object config is always read-only
-        parent::__construct(true);
+        parent::__construct($readonly);
         $this->_configObject = $obj;
     }
     
@@ -44,16 +44,9 @@ class Object extends Config{
     }
 
     
-    public function set($k, $v)
+    public function doSet($k, $v)
     {
-        throw new \Nettools\Simple_Framework\Exceptions\NotAuthorizedException('Object config is readonly');
-    }
-
-    
-    protected function doCommit()
-    {
-        // a Config\Object is readonly
-        throw new \Nettools\Simple_Framework\Exceptions\NotAuthorizedException('Object config is readonly');
+        $this->_configObject->$k = $v;
     }
 
     

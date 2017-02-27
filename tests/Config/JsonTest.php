@@ -1,66 +1,45 @@
 <?php
 
-use \Nettools\Simple_Framework\Config\Json;
+use \Nettools\Simple_Framework\Config\Object;
+
 
 
 
 
 class JsonTest extends PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function testNoParameter()
     {
-        $f = fopen('/tmp/net-tools-phpunit-' . basename(__FILE__), 'w');
-        fwrite($f, '{"prop1":"value1","prop2":false,"prop3":13}');
-        fclose($f);
-    }
-    
-    
-    public function tearDown()
-    {
-        $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
-        if ( file_exists($f) )
-            unlink($f);
-    }
-    
-
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
-     */
-    public function testNoFile()
-    {
-        // file doesn't exist : empty config ; config is read-only
-        $o = new Json('/nofile', true);
+        $o = new Object();
         $this->assertEquals('{}', $o->asJson());
-        
-        // not allowed since Config object is read-only
-        $o->property = value;
     }
     
-
+    
+    public function testConstructor()
+    {
+        $o = new Object('{"prop":12}');
+        $this->assertEquals(12, $o->prop);
+        $this->assertEquals(true, $o->isReadOnly());
+    }
+    
+    
     /**
      * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
      */
-    public function testFileReadonlyByDefault()
+    public function testReadonly()
     {
-        // by default, the Config object is readonly
-        $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
-        $o = new Json($f);
-        $o->prop4 = '4';    // exception here, setting a property is not allowed on readonly
-    }
-    
-
-    public function testFile()
-    {
-        // by default, the Config object is readonly
-        $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
-        $o = new Json($f, false);
-        $o->prop4 = 'p4';
-        $o->commit();
-        $this->assertEquals('{"prop1":"value1","prop2":false,"prop3":13,"prop4":"p4"}', file_get_contents($f));
+        $o = new Object('{"prop":12}');
+        $o->prop = 0;   // exception here, Json config is constructed readonly
     }
     
     
-   
+    public function testReadWrite()
+    {
+        $o = new Object('{"prop":12}', false);
+        $o->prop = 0;
+        $this->assertEquals(0, $o->prop);
+    }
+    
 }
 
 ?>

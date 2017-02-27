@@ -30,7 +30,6 @@ class ObjectTest extends PHPUnit\Framework\TestCase
     
     public function testObject()
     {
-        // parameter is not a Stdclass object
         $o = new Object((object) array('property'=>'value'));
         $this->assertEquals('value', $o->property);
         $this->assertEquals(NULL, $o->no_property);
@@ -42,16 +41,25 @@ class ObjectTest extends PHPUnit\Framework\TestCase
      */
     public function testObjectReadonly()
     {
-        // parameter is not a Stdclass object
         $o = new Object((object) array('property'=>'value'));
+        $this->assertEquals(true, $o->isReadOnly());
         $o->property = 'value2';    // always readonly
     }
 
 
-    public function testCommit()
+    public function testObjectReadWrite()
     {
-        $o = new Object((object) array('property'=>'value'));
-        $o->commit();        // nothing done in Config::commit since Object is readonly
+        $o = new Object((object) array('property'=>'value'), false);
+        $this->assertEquals(false, $o->isReadOnly());
+        $o->property = 'value2'; // no exception here
+        $this->assertEquals('value2', $o->property);
+    }
+
+
+    public function testAsjson()
+    {
+        $o = new Object((object) array('property'=>'value', 'property2'=>12, 'property3'=>NULL, 'property4'=>[], 'property5'=>(object)array()));
+        $this->assertEquals('{"property":"value","property2":12,"property3":null,"property4":[],"property5":{}}', $o->asJson());
     }
     
     

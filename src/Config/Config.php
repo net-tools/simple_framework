@@ -58,7 +58,24 @@ abstract class Config {
      * @param string $k Config value name
      * @param mixed $v Config value 
      */
-    abstract public function set($k, $v);
+    public function set($k, $v)
+    {
+        if ( $this->isReadOnly() )
+            throw new \Nettools\Simple_Framework\Exceptions\NotAuthorizedException("Registry is read-only.");
+            
+        $this->doSet($k, $v);
+        
+        $this->commit();
+    }
+
+    
+    /** 
+     * Config value SET updater to implement in child classes
+     * 
+     * @param string $k Config value name
+     * @param mixed $v Config value 
+     */
+    abstract protected function doSet($k, $v);
 
     
     /** 
@@ -72,9 +89,11 @@ abstract class Config {
 
     
     /** 
-     * Abstract method to commit read/write registry to storage
+     * Method to commit read/write registry to storage
      */
-    abstract protected function doCommit();
+    protected function doCommit()
+    {
+    }
 
     
     /** 
