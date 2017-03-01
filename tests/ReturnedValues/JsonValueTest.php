@@ -37,7 +37,7 @@ class JsonValueTest extends PHPUnit\Framework\TestCase
     {
         $this->expectOutputString('{"prop":"value"}');
         $v = new Json('{"prop":"value"}');
-        $v->output();      
+        $v->immediateOutput();      
     }
     
  

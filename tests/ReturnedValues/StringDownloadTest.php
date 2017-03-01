@@ -19,7 +19,8 @@ class StringDownloadTest extends PHPUnit\Framework\TestCase
     {
         $this->expectOutputString('file content');
         $v = new StringDownload('file content', 'f.txt');
-        $v->output();      
+        $v->immediateOutput();      
+        $this->assertEquals('file content', $v);
     }
     
  

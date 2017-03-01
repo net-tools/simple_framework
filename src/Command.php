@@ -38,7 +38,7 @@ abstract class Command {
     public function getCommandName()
     {
         // get the classname with namespace, remove it and only return classname
-        return strtolower(substr(strrchr(get_class($this), '\\'), 1));
+        return strtolower(substr(strrchr('\\'.get_class($this), '\\'), 1));
     }
     
     
@@ -116,6 +116,17 @@ abstract class Command {
     protected function returnString($s)
     {
         return $this->returnPHP($s);
+    }
+    
+    
+    /** 
+     * Returns a PHP float 
+     *
+     * @param float $f
+     */
+    protected function returnFloat($f)
+    {
+        return $this->returnPHP($f);
     }
     
     

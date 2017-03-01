@@ -35,15 +35,26 @@ class PHP extends Value {
     }
     
     
-    public function output()
+    public function immediateOutput()
     {
         // nothing to be done here
     }
     
     
+    /**
+     * Get value
+     *
+     * @return mixed 
+     */
+    public function getValue()
+    {
+        return $this->_value;
+    }
+    
+    
     public function __toString()
     {
-        return $this->_value ? ''.$this->_value : '';
+        return $this->_value ? (string)($this->_value) : '';
     }
 }
 

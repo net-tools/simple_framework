@@ -37,9 +37,13 @@ abstract class Value {
     
     
     /**
-     * Do the output of the value on stdout
+     * Do the output of the value on stdout as soon as possible.
+     *
+     * To be used for responding with json or data download and then halting the script.
+     * HTML content should be displayed by user with `echo $value` at the right place in the page
+     * template, which will call the magic __toString() method to convert the returned value to a string
      */
-    abstract function output();
+    abstract function immediateOutput();
     
     
     /**
@@ -47,14 +51,13 @@ abstract class Value {
      */
     public function headers()
     {
-        
     }
     
     
     /**
-     * Terminate the output of the value on stdout ; for example, Download or Json return value halt the script
+     * Terminate the output of the value on stdout ; for example, Download or Json return values halt the script
      */
-    function terminateOutput()
+    function terminateImmediateOutput()
     {        
     }
     

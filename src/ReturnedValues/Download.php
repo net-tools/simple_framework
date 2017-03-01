@@ -55,9 +55,9 @@ abstract class Download extends Value {
     
     
     /**
-     * Terminate the output of the value on stdout ; for example, Download or Json return value halt the script
+     * Terminate the output by halting the script
      */
-    function terminateOutput()
+    function terminateImmediateOutput()
     {        
         die();
     }

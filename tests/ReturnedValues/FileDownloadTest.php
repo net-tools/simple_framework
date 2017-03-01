@@ -19,7 +19,8 @@ class FileDownloadTest extends PHPUnit\Framework\TestCase
     {
         $this->expectOutputString(file_get_contents(__FILE__));
         $v = new FileDownload(__FILE__, 'f.php.txt');
-        $v->output();      
+        $v->immediateOutput();
+        $this->assertEquals(file_get_contents(__FILE__), $v);
     }
     
  

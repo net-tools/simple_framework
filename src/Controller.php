@@ -158,10 +158,10 @@ abstract class Controller {
             if ( !$ret || !is_object($ret) || !($ret instanceof \Nettools\Simple_Framework\ReturnedValues\Value) )
                 throw new Exceptions\UnknownReturnException("Return value for command '" . $cmd->getCommandName() . "' is unknown or not a ReturnedValues\\Value class.");
 
-            // do command output (only used by ReturnedValues\Json and ReturnedValues\Download)
+            // do command immediate output at beginning of script (only used by ReturnedValues\Json and ReturnedValues\Download)
             $ret->headers();
-            $ret->output();
-            $ret->terminateOutput();
+            $ret->immediateOutput();
+            $ret->terminateImmediateOutput();
             return $ret;
         }
         catch(\Throwable $e)

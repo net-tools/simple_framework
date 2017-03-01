@@ -65,16 +65,16 @@ class Json extends Value {
     /**
      * Do the output of the Json value
      */
-    public function output()
+    public function immediateOutput()
     {
         echo $this->_value;
     }
     
     
     /**
-     * Terminate the output of the value on stdout ; for example, Download or Json return value halt the script
+     * Terminate the json output on stdout and halt the script
      */
-    function terminateOutput()
+    function terminateImmediateOutput()
     {     
         die();
     }

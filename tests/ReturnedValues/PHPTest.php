@@ -28,7 +28,8 @@ class PHPTest extends PHPUnit\Framework\TestCase
     {
         $this->expectOutputString('');
         $v = new PHP('string');
-        $v->output();       // a PHP value does not output to stdout
+        $v->immediateOutput();       // a PHP value does not output to stdout
+        $this->assertEquals('string', $v->getValue());
     }
     
     
