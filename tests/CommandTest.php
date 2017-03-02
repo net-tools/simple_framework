@@ -53,6 +53,16 @@ class TestReturnString extends Command
 
 
 
+class TestReturnHTML extends Command
+{
+     public function execute(Request $req, Application $app)
+     {
+         return $this->returnHTML('<b>bold</b>');
+     }
+}
+
+
+
 class TestReturnFloat extends Command
 {
      public function execute(Request $req, Application $app)
@@ -167,10 +177,11 @@ class CommandTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('{"prop":"value"}', (new TestReturnJson())->execute($r, $app_stub));
         $this->assertEquals('returned download', (new TestReturnStringDownload())->execute($r, $app_stub));
         $this->assertEquals(file_get_contents(__FILE__), (new TestReturnFileDownload())->execute($r, $app_stub));
-        $this->assertEquals(123.456, (new TestReturnFloat(123.456))->execute($r, $app_stub)->getValue());
-        $this->assertEquals(true, (new TestReturnBool(true))->execute($r, $app_stub)->getValue());
+        $this->assertEquals(123.456, (new TestReturnFloat())->execute($r, $app_stub)->getValue());
+        $this->assertEquals(true, (new TestReturnBool())->execute($r, $app_stub)->getValue());
         $this->assertEquals(null, (new TestReturnNull())->execute($r, $app_stub)->getValue());
-        $this->assertEquals(1234, (new TestReturnInt(1234))->execute($r, $app_stub)->getValue());
+        $this->assertEquals(1234, (new TestReturnInt())->execute($r, $app_stub)->getValue());
+        $this->assertEquals('<b>bold</b>', (new TestReturnHTML())->execute($r, $app_stub)->getValue());
     }
         
 }

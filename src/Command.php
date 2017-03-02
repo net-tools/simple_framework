@@ -109,6 +109,17 @@ abstract class Command {
     
     
     /** 
+     * Returns HTML content
+     *
+     * @param string $html HTML string to be returned 
+     */
+    protected function returnHTML($html)
+    {
+        return $this->_return = new ReturnedValues\HTML($html);
+    }
+    
+    
+    /** 
      * Returns a PHP string (useful for output to screen)
      *
      * @param string $s 
