@@ -26,7 +26,7 @@ class WebApplication extends Application {
      */
     public function __construct($ns, Registry $registry)
     {
-        parent::__construct(new WebController($this, $ns), $registry);
+        parent::__construct(new WebController($ns), $registry);
     }
     
 }

@@ -15,7 +15,7 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 
 /**
  * Class for a PHP value returned by a command
-*/
+ */
 class PHP extends Value {
     
     // value to be returned
@@ -42,9 +42,9 @@ class PHP extends Value {
     
     
     /**
-     * Get value
-     *
-     * @return mixed 
+     * Get value (usually, some HTML content or a computed value to use in page template)
+     * 
+     * @return mixed Value returned by command
      */
     public function getValue()
     {

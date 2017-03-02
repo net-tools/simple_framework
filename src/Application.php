@@ -59,7 +59,7 @@ class Application {
      */
     public function run()
     {
-        return $this->_controller->run();
+        return $this->_controller->run($this);
     }
     
         

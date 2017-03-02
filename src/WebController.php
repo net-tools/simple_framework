@@ -81,12 +81,11 @@ class WebController extends Controller {
     /** 
      * Constructor of web controller
      *
-     * @param Application $app Application object
      * @param string $ns Namespace used in the user application for commands
      */
-    public function __construct(Application $app, $ns)
+    public function __construct($ns)
     {
-        parent::__construct($app, $ns);
+        parent::__construct($ns);
         
         $this->_http_verb = $_SERVER['REQUEST_METHOD'];
     }

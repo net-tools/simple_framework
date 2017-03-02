@@ -41,7 +41,9 @@ abstract class Value {
      *
      * To be used for responding with json or data download and then halting the script.
      * HTML content should be displayed by user with `echo $value` at the right place in the page
-     * template, which will call the magic __toString() method to convert the returned value to a string
+     * template, which will call the magic `__toString()` method to convert the returned value to a string ; this
+     * magic method should be defined in classes inheriting from Value, or another way of fetching the value must be
+     * implemented. For example, inheriting class PHP has a `getValue()` method.
      */
     abstract function immediateOutput();
     

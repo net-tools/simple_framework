@@ -56,6 +56,23 @@ class FileUploadRequest {
      */
     public function __construct($error, $tmp_name, $size, $type, $name)
     {
+        if ( !is_int($error) )
+            throw new Exceptions\InvalidParameterException('Parameter 1 of FileUploadRequest is not an int.');
+        
+        
+        // check properties of file upload only if the upload has occured
+        if ( $error == UPLOAD_ERR_OK )
+        {
+            if ( !is_string($tmp_name) )
+                throw new Exceptions\InvalidParameterException('Parameter 2 of FileUploadRequest is not a string.');
+            if ( !is_int($size) )
+                throw new Exceptions\InvalidParameterException('Parameter 3 of FileUploadRequest is not an int.');
+            if ( !is_string($type) )
+                throw new Exceptions\InvalidParameterException('Parameter 4 of FileUploadRequest is not a string.');
+            if ( !is_string($name) )
+                throw new Exceptions\InvalidParameterException('Parameter 5 of FileUploadRequest is not a string.');
+        }
+        
         $this->_error = $error;
         $this->_tmp_name = $tmp_name;
         $this->_size = $size;

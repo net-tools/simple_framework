@@ -30,11 +30,6 @@ abstract class Controller {
     protected $_commandsNamespace = NULL;
     
     
-    /**
-     * @var Application Application object
-     */
-    protected $_app = NULL;
-    
     
 
     /** 
@@ -48,12 +43,10 @@ abstract class Controller {
     /** 
      * Constructor of controller
      *
-     * @param Application $app Application object
      * @param string $ns Namespace used in the user application for commands
      */
-    public function __construct(Application $app, $ns)
+    public function __construct($ns)
     {
-        $this->_app = $app;
         $this->_commandsNamespace = $ns;
     }
     
@@ -62,10 +55,11 @@ abstract class Controller {
      * Get a command object, whose class is built from the CMD reserved parameter
      *
      * @param Request $req
+     * @param Application $app Application object (used to retrieve config data)
      * @return Command Returns a command object for this request
      * @throws Exceptions\InvalidCommandException Thrown if command class cannot be found
      */
-    protected function getCommand(Request $req)
+    protected function getCommand(Request $req, Application $app)
     {
         $cmd = $req->cmd;
         $ns = $this->_commandsNamespace;
@@ -74,7 +68,7 @@ abstract class Controller {
         // if command not in request (CMD parameter not set)
         if ( !$cmd )
             // if no app config directive for default command
-            if ( !$this->_app->registry->exists('appcfg') || !$this->_app->registry->appcfg->controller || !($cmd = $this->_app->registry->appcfg->controller->userDefaultCommand) )
+            if ( !$app->registry->exists('appcfg') || !$app->registry->appcfg->controller || !($cmd = $app->registry->appcfg->controller->userDefaultCommand) )
             {
                 $ns = __NAMESPACE__;
                 $cmd = 'defaultCommand';
@@ -94,16 +88,17 @@ abstract class Controller {
      *
      * @param Command $d Command class to run
      * @param Request $req Request paramaters to pass to command
+     * @param Application $app Application object
      * @return ReturnedValues\Value Returned value sent by command
      * @throws Exceptions\InvalidRequestException Thrown if request is not valid
      */
-    public function runCommand(Command $cmd, Request $req)
+    protected function runCommand(Command $cmd, Request $req, Application $app)
     {
         // validate request for command
         if ( !$cmd->validateRequest($req) )
             throw new Exceptions\InvalidRequestException("Request for command '" . $cmd->getCommandName() . "' is not valid.");
         
-        return $cmd->execute($req, $this->_app);
+        return $cmd->execute($req, $app);
     }
     
     
@@ -112,11 +107,12 @@ abstract class Controller {
      *
      * @param Command $d Command class to run
      * @param Request $req Request paramaters to pass to command
+     * @param Application $app Application object
      * @return ReturnedValues\Value Returned value sent by command
      */
-    public function forward(Command $cmd, Request $req)
+    public function forward(Command $cmd, Request $req, Application $app)
     {
-        return $this->runCommand($cmd, $req);
+        return $this->runCommand($cmd, $req, $app);
     }
         
     
@@ -132,20 +128,22 @@ abstract class Controller {
     /** 
      * Execute a command and handle returned value accordingly
      *
+     * @param Application $app Application object
      * @return ReturnedValues\Value Returned value sent by command
      */
-    public function run()
+    public function run(Application $app)
     {
         try
         {
             // get request and command objects
             $req = $this->getRequest();
-            $cmd = $this->getCommand($req);
+            $cmd = $this->getCommand($req, $app);
             
+
             try
             {
                 // execute command and get its returned value ; intercept command failed (by user) exception
-                $ret = $this->runCommand($cmd, $req);
+                $ret = $this->runCommand($cmd, $req, $app);
             }
             catch(Exceptions\CommandFailedException $e)
             {
@@ -166,7 +164,7 @@ abstract class Controller {
         }
         catch(\Throwable $e)
         {
-            if ( $this->_app->registry->exists('appcfg') && $this->_app->registry->appcfg->application && ($eh = $this->_app->registry->appcfg->application->exceptionHandler) && class_exists($eh) )
+            if ( $app->registry->exists('appcfg') && $app->registry->appcfg->application && ($eh = $app->registry->appcfg->application->exceptionHandler) && class_exists($eh) )
                 $eh;
             else
                 $eh = '\\Nettools\\Core\\ExceptionHandlers\\SimpleExceptionHandler';
@@ -177,9 +175,6 @@ abstract class Controller {
 
     }
     
-    
-
-
 }
 
 
