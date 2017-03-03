@@ -1,6 +1,6 @@
 <?php
 /**
- * FileUpload
+ * FileDownload
  *
  * @author Pierre - dev@net-tools.ovh
  * @license MIT

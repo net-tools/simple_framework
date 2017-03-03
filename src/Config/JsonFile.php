@@ -1,6 +1,6 @@
 <?php
 /**
- * Json
+ * JsonFile
  *
  * @author Pierre - dev@net-tools.ovh
  * @license MIT

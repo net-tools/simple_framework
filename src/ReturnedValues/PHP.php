@@ -1,6 +1,6 @@
 <?php
 /**
- * Php
+ * PHP
  *
  * @author Pierre - dev@net-tools.ovh
  * @license MIT
