@@ -78,6 +78,12 @@ return $this->returnFileDownload('/tmp/compute.bin', 'data.bin', 'application/oc
 If you want to handle files uploaded by user, use the `getFileUpload` method of `Request` class to fetch a specific `FileUploadRequest` object describing the file uploaded :
 
 ```php
+namespace Myapp\Commands;
+
+use \Nettools\Simple_Framework\Command;
+use \Nettools\Simple_Framework\Request;
+use \Nettools\Simple_Framework\Application;
+
 class Upload extends Command
 {
     public function execute(Request $req, Application $app)
@@ -115,7 +121,11 @@ To execute the commands defined before, you have to send a HTTP request to the U
 index.php?cmd=test&param=hello+world
 ```
 
-The first two examples here (HTML response and XMLHttpResponse) would output :
+As you can see, the name of the command should be set in the `cmd` URI querystring parameter. Other parameters are meant to be used during the command execution (such as `$req->param` for `param` querystring value).
+
+Requests can also be sent with POST verb or XMLHttpRequest from Javascript. 
+
+The first two examples on this page (HTML response and XMLHttpResponse) would output :
 
 `Command <b>'test'</b> is called with parameter 'hello world' !`
 
@@ -123,6 +133,35 @@ and
 
 `{"value":"hello world"}`
 
-As you can see, the name of the command should be set in the `cmd` URI querystring parameter. Other parameters are meant to be used during the command execution (such as `$req->param` for `param` querystring value).
 
+### Launch application to handle requests
+
+When sending commands to your application with a HTTP request such as `index.php?cmd=test&param=hello+world`, you need to launch the application framework so that it could handle request and return output from command execution :
+
+```php
+<?php
+namespace Myapp;
+
+use \Nettools\Simple_Framework\WebApplication;
+use \Nettools\Simple_Framework\Registry;
+
+
+// créer l'application
+$app = new WebApplication(
+        // user namespace for commands
+        '\\Myapp\\Commands', 
+    
+        // registry for config data ; currently empty to have a simple example
+        new Registry()
+    );
+
+// launch app and get the returned result in $output
+$output = $app->run();
+?>
+<html>
+  <body>
+  Command output as HTML or php value : <?php echo $output ?>
+  </body>
+</html>
+```
 
