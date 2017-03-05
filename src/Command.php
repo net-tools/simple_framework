@@ -166,7 +166,7 @@ abstract class Command {
     /** 
      * Returns a Json string (useful for xmlhttp requests)
      *
-     * @param mixed $s Value to be returned (either a json-formatted string or an associative array)
+     * @param string|string[]|object $s Value to be returned (either a json-formatted string, an associative array or a litteral object)
      */
     protected function returnJson($s)
     {
