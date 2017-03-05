@@ -26,6 +26,8 @@ This is a simple framework, and you may say that generating view content should 
 
 ### Create command classes
 
+#### Common cases 
+
 To answer to a command (such as a GET/POST request), you just have to create a class named on the command name, and inherit from `Command` class :
 
 ```php
@@ -49,7 +51,7 @@ As you may guess, this command returns HTML content. This content is not outputt
 
 The string returned will contain the value of querystring 'param', which is accessible through the `Request $req` object. This object is filled with all GET/POST parameters, as PHP properties. Data is sanitized before being set to the `Request` object.
 
------
+---
 
 If you want to answer to XMLHttpRequests, return a JSON value with either on the the following lines. The `returnJson` method of `Command` class is smart enough to allow different data types and then converting them internally to a JSON-formatted string.
 
@@ -59,7 +61,7 @@ return $this->returnJson(array('value' => $req->param));           // associativ
 return $this->returnJson((object)array('value' => $req->param));   // object litteral
 ```
 
------
+---
 
 To respond to a command with a download, use either the `returnFileDownload` or `returnStringDownload` depending on whether the data is contained in a file or a string generated on-the-fly :
 
@@ -70,6 +72,39 @@ return $this->returnStringDownload("my file content", 'test.txt', 'text/plain');
 // downloading a file from path '/tmp/compute.bin', with Mimetype 'application/octet-stream' ; when saved, the browser will suggest 'data.bin' as filename
 return $this->returnFileDownload('/tmp/compute.bin', 'data.bin', 'application/octet-stream');
 ``` 
+
+#### Handling file uploads
+
+If you want to handle files uploaded by user, use the `getFileUpload` method of `Request` class to fetch a specific `FileUploadRequest` object describing the file uploaded :
+
+```php
+class Upload extends Command
+{
+    public function execute(Request $req, Application $app)
+    {
+        // the input named 'upload' should always be in the request, even if no file has been submitted.
+        // $f will contain a FileUploadRequest object.
+        if ( $f = $req->getFileUpload('upload') )
+            // if a file has been submitted
+            if ( $f->uploaded() )
+            {
+                // we erase the temp file, this is just a test
+                unlink($f->tmp_name);
+                return $this->returnString('File was sent');
+            }
+            
+            // if no file has been submitted
+            else if ( $f->no_file() )
+                return $this->returnString('The user has not uploaded a file');
+            
+            // unknown other error
+            else
+                return $this->returnString('Upload error');
+        else
+            return $this->returnString('Field upload does not exist');
+    }
+}
+```
 
 
 ### Send commands
