@@ -216,6 +216,21 @@ class ErrorOccured extends Command
 }
 ```
 
+and then detecting the error :
+
+```php
+$output = $app->run();
+
+if ( $output->isSuccessful() )
+   echo "ok";
+else
+{
+   $arr = $output->getValue();
+   echo "ko " . $arr['msg'] . " at line " . $arr['line'];
+}
+```
+
+
 ## API Reference
 
 To read the entire API reference, please refer to the PHPDoc here : http://net-tools.ovh/api-reference/net-tools/Nettools/Simple_Framework.html
