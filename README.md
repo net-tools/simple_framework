@@ -216,3 +216,12 @@ class ErrorOccured extends Command
 }
 ```
 
+## API Reference
+
+To read the entire API reference, please refer to the PHPDoc here : http://net-tools.ovh/api-reference/net-tools/Nettools/Simple_Framework.html
+
+
+## PHPUnit
+
+To test with PHPUnit, point the -c configuration option to the /phpunit.xml configuration file.
+
