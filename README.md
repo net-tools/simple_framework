@@ -136,7 +136,7 @@ and
 
 ### Launch application to handle requests
 
-When sending commands to your application with a HTTP request such as `index.php?cmd=test&param=hello+world`, you need to launch the application framework so that it could handle request and return output from command execution :
+When sending commands to your application with an HTTP request such as `index.php?cmd=test&param=hello+world`, you need to launch the application framework so that it could handle request and return output from command execution :
 
 ```php
 <?php
@@ -151,7 +151,7 @@ $app = new WebApplication(
         // user namespace for commands
         '\\Myapp\\Commands', 
     
-        // registry for config data ; currently empty to have a simple example
+        // registry for config data
         new Registry()
     );
 
@@ -160,8 +160,15 @@ $output = $app->run();
 ?>
 <html>
   <body>
-  Command output as HTML or php value : <?php echo $output ?>
+  Command output as HTML or php value : <?php echo $output; ?>.
   </body>
 </html>
 ```
 
+The `WebApplication` object is created so that the application could run. Its first parameter is the namespace where to look for command classes (please refer to the first examples here, the namespace for the commands is `Myapp\Commands`), and the second parameter is a `Registry` object used to store config data (to keep the example simple, the registry is empty ; we however don't need any confi data for this test).
+
+Then, the `run` method is called on the `App` object : the command refered by the `cmd` querystring parameter is searched in the `Myapp\Commands` namespace, invoked, and its results set to `$output`.
+
+In the special case of values returned as `Json` or `Download` (either `FileDownload` or `StringDownload`), the output is sent immediately to the browser, and the script is halted (since a Json response is for a XMLHttpRequest which is ended with Json output, and since a download is ended when the data has been sent, no need in both cases to let run the application). Please refer to classes in the `ReturnedValues` sub-namespace of `Nettools\Simple_Framework` for a complete list of acceptable returned values (all inheriting from `ReturnedValues\Value`).
+
+In other cases, the command returns a value, which is fetched from `$app->run()` execution. In most cases this will be some HTML content or a primitive PHP type (string, int, etc.), that you can include in your page template later : `echo $output` will cast the `ReturnedValues\Value` object to a string.
