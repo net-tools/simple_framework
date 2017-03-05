@@ -172,3 +172,7 @@ Then, the `run` method is called on the `App` object : the command refered by th
 In the special case of values returned as `Json` or `Download` (either `FileDownload` or `StringDownload`), the output is sent immediately to the browser, and the script is halted (since a Json response is for a XMLHttpRequest which is ended with Json output, and since a download is ended when the data has been sent, no need in both cases to let run the application). Please refer to classes in the `ReturnedValues` sub-namespace of `Nettools\Simple_Framework` for a complete list of acceptable returned values (all inheriting from `ReturnedValues\Value`).
 
 In other cases, the command returns a value, which is fetched from `$app->run()` execution. In most cases this will be some HTML content or a primitive PHP type (string, int, etc.), that you can include in your page template later : `echo $output` will cast the `ReturnedValues\Value` object to a string.
+
+
+### Handling error cases and exceptions
+
