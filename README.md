@@ -10,6 +10,11 @@ This package defines a framework that can be used to create simple web applicati
 To install net-tools/simple_framework package, just require it through composer : `require net-tools/simple_framework:^1.0.0`.
 
 
+## Sample files
+
+There's a `samples` subdirectory in the package with a very simple app. Please read first this readme and then you may refer to this sample file.
+
+
 ## How to use ?
 
 ### Framework preview
