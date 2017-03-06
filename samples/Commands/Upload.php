@@ -24,13 +24,13 @@ class Upload extends Command
             
             // if no file has been submitted
             else if ( $f->no_file() )
-                return $this->returnString('The user has not uploaded a file');
+                return $this->fail('The user has not uploaded a file');
             
             // unknown other error
             else
-                return $this->returnString('Upload error');
+                return $this->fail('Upload error');
         else
-            return $this->returnString('Field upload does not exist');
+            return $this->returnString('Field upload does not exist', false);
     }
 }
 
