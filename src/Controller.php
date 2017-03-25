@@ -167,7 +167,7 @@ abstract class Controller {
             if ( $app->registry->exists('appcfg') && $app->registry->appcfg->application && ($eh = $app->registry->appcfg->application->exceptionHandler) && class_exists($eh) )
                 $eh;
             else
-                $eh = '\\Nettools\\Core\\ExceptionHandlers\\SimpleExceptionHandler';
+                $eh = \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler::class;
             
             $h = new $eh();
             $h->handleException($e);
