@@ -1,12 +1,16 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 use \Nettools\Simple_Framework\ReturnedValues\HTML;
 
 
 
 
 
-class HTMLTest extends PHPUnit\Framework\TestCase
+class HTMLTest extends \PHPUnit\Framework\TestCase
 {
     public function testValue()
     {

@@ -1,5 +1,9 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 
 use \Nettools\Simple_Framework\Request;
 use \Nettools\Simple_Framework\Controller;
@@ -11,7 +15,7 @@ use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
 
 
 
-class TestCommandFailedException extends Exception{}
+class TestCommandFailedException extends \Exception{}
 
 
 
@@ -89,7 +93,7 @@ class TestForwardedCommand extends Command
 
 
 
-class ControllerTest extends PHPUnit\Framework\TestCase
+class ControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected $app;
     protected $controller_stub;

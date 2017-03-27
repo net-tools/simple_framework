@@ -1,12 +1,16 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 use \Nettools\Simple_Framework\Config\Json;
 
 
 
 
 
-class JsonTest extends PHPUnit\Framework\TestCase
+class JsonTest extends \PHPUnit\Framework\TestCase
 {
     public function testNoParameter()
     {

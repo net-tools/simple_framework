@@ -1,11 +1,15 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 use \Nettools\Simple_Framework\Config\JsonFile;
 
 
 
 
-class JsonFileTest extends PHPUnit\Framework\TestCase
+class JsonFileTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

@@ -1,12 +1,16 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 use \Nettools\Simple_Framework\Config\Object;
 
 
 
 
 
-class ObjectTest extends PHPUnit\Framework\TestCase
+class ObjectTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException TypeError

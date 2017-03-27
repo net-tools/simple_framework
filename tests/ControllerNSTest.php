@@ -17,7 +17,8 @@ namespace NT\Tests {
 
 
 
-namespace {
+
+namespace Nettools\Simple_Framework\Tests{
 
     use \Nettools\Simple_Framework\Request;
     use \Nettools\Simple_Framework\Controller;
@@ -29,7 +30,7 @@ namespace {
 
     
     
-    class TestNSCommandFailedException extends Exception{}
+    class TestNSCommandFailedException extends \Exception{}
 
 
 
@@ -46,7 +47,7 @@ namespace {
 
 
 
-    class NSControllerTest extends PHPUnit\Framework\TestCase
+    class NSControllerTest extends \PHPUnit\Framework\TestCase
     {
         protected $app;
         protected $controller_stub;

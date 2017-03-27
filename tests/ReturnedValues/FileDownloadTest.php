@@ -1,12 +1,16 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 use \Nettools\Simple_Framework\ReturnedValues\FileDownload;
 
 
 
 
 
-class FileDownloadTest extends PHPUnit\Framework\TestCase
+class FileDownloadTest extends \PHPUnit\Framework\TestCase
 {
     public function testValue()
     {

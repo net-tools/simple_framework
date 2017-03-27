@@ -1,11 +1,16 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 
 use \Nettools\Simple_Framework\Request;
 
 
 
-class RequestTest extends PHPUnit\Framework\TestCase
+
+class RequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException

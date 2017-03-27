@@ -1,5 +1,9 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 use \Nettools\Simple_Framework\Registry;
 use \Nettools\Simple_Framework\Config\Object;
 
@@ -7,7 +11,7 @@ use \Nettools\Simple_Framework\Config\Object;
 
 
 
-class RegistryTest extends PHPUnit\Framework\TestCase
+class RegistryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException

@@ -1,5 +1,9 @@
 <?php
 
+namespace Nettools\Simple_Framework\Tests;
+
+
+
 
 use \Nettools\Simple_Framework\Request;
 use \Nettools\Simple_Framework\Command;
@@ -133,7 +137,9 @@ class TestReturnJson extends Command
 
 
 
-class CommandTest extends PHPUnit\Framework\TestCase
+
+
+class CommandTest extends \PHPUnit\Framework\TestCase
 {
     public function testAbstractCommand()
     {
