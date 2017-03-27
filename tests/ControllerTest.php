@@ -15,7 +15,9 @@ use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
 
 
 
+
 class TestCommandFailedException extends \Exception{}
+
 
 
 
@@ -119,7 +121,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
                     array(
                         // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
                         'appcfg' => new Object((object)array(
-                                            'application' => (object)array('exceptionHandler'=>'TestExceptionHandler')
+                                            'application' => (object)array('exceptionHandler'=>TestExceptionHandler::class)
                                         ))
                     ))
             );

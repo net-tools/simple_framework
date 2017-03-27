@@ -74,7 +74,7 @@ namespace Nettools\Simple_Framework\Tests{
                         array(
                             // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
                             'appcfg' => new Object((object)array(
-                                                'application' => (object)array('exceptionHandler'=>'TestNSExceptionHandler')
+                                                'application' => (object)array('exceptionHandler'=>TestNSExceptionHandler::class)
                                             ))
                         ))
                 );
