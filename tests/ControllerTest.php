@@ -1,8 +1,6 @@
 <?php
 
-namespace Nettools\Simple_Framework\Tests;
-
-
+// no user namespace for this special test !
 
 
 use \Nettools\Simple_Framework\Request;
