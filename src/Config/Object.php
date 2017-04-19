@@ -52,7 +52,7 @@ class Object extends Config{
     
     public function asJson()
     {
-        return json_encode($this->_configObject);
+        return json_encode($this->_configObject, JSON_PRETTY_PRINT);
     }
 }
 
