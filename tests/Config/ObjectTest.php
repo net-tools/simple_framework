@@ -63,7 +63,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     public function testAsjson()
     {
         $o = new Object((object) array('property'=>'value', 'property2'=>12, 'property3'=>NULL, 'property4'=>[], 'property5'=>(object)array()));
-        $this->assertEquals('{"property":"value","property2":12,"property3":null,"property4":[],"property5":{}}', $o->asJson());
+        $this->assertEquals(json_encode(json_decode('{"property":"value","property2":12,"property3":null,"property4":[],"property5":{}}'), JSON_PRETTY_PRINT), $o->asJson());
     }
     
     

@@ -60,7 +60,7 @@ class JsonFileTest extends \PHPUnit\Framework\TestCase
         $o = new JsonFile($f, false);
         $o->prop4 = 'p4';
         $o->commit();
-        $this->assertEquals('{"prop1":"value1","prop2":false,"prop3":13,"prop4":"p4"}', file_get_contents($f));
+        $this->assertEquals(json_encode(json_decode('{"prop1":"value1","prop2":false,"prop3":13,"prop4":"p4"}'), JSON_PRETTY_PRINT), file_get_contents($f));
     }
     
     
