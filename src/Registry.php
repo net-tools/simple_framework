@@ -50,7 +50,7 @@ class Registry {
     {
         // check all registries inherit from Config\Config
         foreach ( $registries as $k=>$reg )
-            if ( !($reg instanceof Config\Config) )
+            if ( !($reg instanceof \Nettools\Simple_Framework\Config\Config) )
                 throw new Exceptions\InvalidParameterException("Registry '$k' does not inherit from Config\\Config.");
                 
         $this->_registries = $registries;

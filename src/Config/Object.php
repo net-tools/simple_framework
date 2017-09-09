@@ -16,7 +16,7 @@ namespace Nettools\Simple_Framework\Config;
 /**
  * Class for config
  */
-class Object extends Config{
+class Object extends \Nettools\Simple_Framework\Config\Config{
     
     /** 
      * @var \Stdclass Config litteral object
