@@ -1,6 +1,6 @@
 <?php
 /**
- * Object
+ * ConfigObject
  *
  * @author Pierre - dev@net-tools.ovh
  * @license MIT
@@ -16,7 +16,7 @@ namespace Nettools\Simple_Framework\Config;
 /**
  * Class for config
  */
-class Object extends \Nettools\Simple_Framework\Config\Config{
+class ConfigObject extends \Nettools\Simple_Framework\Config\Config{
     
     /** 
      * @var \Stdclass Config litteral object

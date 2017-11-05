@@ -15,7 +15,7 @@ namespace Nettools\Simple_Framework\Config;
 /**
  * Json config from Json-formatted string
  */
-class Json extends Object {
+class Json extends ConfigObject {
 
     /**
      * Constructor
