@@ -12,7 +12,7 @@ else
 // dependencies
 use \Nettools\Simple_Framework\WebApplication;
 use \Nettools\Simple_Framework\Registry;
-use \Nettools\Simple_Framework\Config\Object;
+use \Nettools\Simple_Framework\Config\ConfigObject;
 
 
 

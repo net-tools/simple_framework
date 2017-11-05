@@ -25,7 +25,7 @@ namespace Nettools\Simple_Framework\Tests{
     use \Nettools\Simple_Framework\Command;
     use \Nettools\Simple_Framework\Application;
     use \Nettools\Simple_Framework\Registry;
-    use \Nettools\Simple_Framework\Config\Object;
+    use \Nettools\Simple_Framework\Config\ConfigObject;
     use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
 
     
@@ -73,7 +73,7 @@ namespace Nettools\Simple_Framework\Tests{
                     new Registry(
                         array(
                             // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
-                            'appcfg' => new Object((object)array(
+                            'appcfg' => new ConfigObject((object)array(
                                                 'application' => (object)array('exceptionHandler'=>TestNSExceptionHandler::class)
                                             ))
                         ))

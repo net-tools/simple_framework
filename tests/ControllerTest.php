@@ -8,7 +8,7 @@ use \Nettools\Simple_Framework\Controller;
 use \Nettools\Simple_Framework\Command;
 use \Nettools\Simple_Framework\Application;
 use \Nettools\Simple_Framework\Registry;
-use \Nettools\Simple_Framework\Config\Object;
+use \Nettools\Simple_Framework\Config\ConfigObject;
 use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
 
 
@@ -118,7 +118,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
                 new Registry(
                     array(
                         // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
-                        'appcfg' => new Object((object)array(
+                        'appcfg' => new ConfigObject((object)array(
                                             'application' => (object)array('exceptionHandler'=>TestExceptionHandler::class)
                                         ))
                     ))

@@ -32,7 +32,7 @@ class ConfigObject extends \Nettools\Simple_Framework\Config\Config{
      */
     public function __construct(\Stdclass $obj, $readonly = true)
     {
-        // an Object config is always read-only
+        // a ConfigObject is always read-only
         parent::__construct($readonly);
         $this->_configObject = $obj;
     }

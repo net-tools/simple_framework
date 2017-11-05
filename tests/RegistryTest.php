@@ -5,7 +5,7 @@ namespace Nettools\Simple_Framework\Tests;
 
 
 use \Nettools\Simple_Framework\Registry;
-use \Nettools\Simple_Framework\Config\Object;
+use \Nettools\Simple_Framework\Config\ConfigObject;
 
 
 
@@ -35,7 +35,7 @@ class RegistryTest extends \PHPUnit\Framework\TestCase
  
     public function testRegistry()
     {
-        $r = new Registry(array('reg'=>new Object((object)array('prop'=>10))));
+        $r = new Registry(array('reg'=>new ConfigObject((object)array('prop'=>10))));
         $this->assertEquals(true, $r->exists('reg'));
         $this->assertEquals(10, $r->reg->prop);    
     }
