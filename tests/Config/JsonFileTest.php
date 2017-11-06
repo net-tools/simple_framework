@@ -37,7 +37,7 @@ class JsonFileTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('{}', $o->asJson());
         
         // not allowed since Config object is read-only
-        $o->property = value;
+        $o->property = 'value';
     }
     
 
