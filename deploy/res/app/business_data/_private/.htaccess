@@ -1,0 +1,5 @@
+# DENY ACCESS TO _PRIVATE SUBDIR
+<Files ~ ".*">
+	order allow,deny
+	deny from all
+</Files>

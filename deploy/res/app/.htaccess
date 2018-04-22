@@ -1,0 +1,32 @@
+# CACHE FOR JS/CSS
+<IfModule mod_expires.c>
+	<FilesMatch "\.(js|css|min)$">
+		ExpiresActive On
+		ExpiresDefault "access plus 7 days"
+		ExpiresByType application/javascript "access plus 365 days"
+		ExpiresByType text/css "access plus 365 days"
+	</FilesMatch>
+</IfModule>
+
+
+
+# XSS attacks : header CSP (Content Security Policy)
+<IfModule mod_headers.c>
+Header set Content-Security-Policy "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://maps.google.com https://maps.googleapis.com"
+</IfModule>
+
+
+
+
+# clickjacking : forbid iframe embedding
+<IfModule mod_headers.c>
+Header always set X-FRAME-OPTIONS "SAME-ORIGIN"
+</IfModule>
+
+
+
+# XSS : force browser to block if XSS attack
+<IfModule mod_headers.c>
+Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+

@@ -1,0 +1,11 @@
+# CACHE HANDLING : disabled for business_data
+<IfModule mod_headers.c>
+	Header set Cache-Control "no-store, no-cache, must-revalidate"
+</IfModule>
+
+
+
+# DON'T ALLOW SCRIPTS HERE
+<Files ~ "(\.php[3-9]?)$">
+	OPTIONS -ExecCGI 
+</Files>

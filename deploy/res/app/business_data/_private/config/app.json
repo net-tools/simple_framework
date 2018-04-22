@@ -1,0 +1,10 @@
+{
+    "application" : {
+        "exceptionHandler" : "\\Nettools\\Core\\ExceptionHandlers\\SimpleExceptionHandler"
+    },
+    
+    "controller" : {
+        "userDefaultCommand" : "%%defaultcmd%%"
+    }
+    
+}

@@ -1,0 +1,39 @@
+{
+    "files":[
+        {
+            "name" : "/app/autoload.php",
+            "expand" : ["ns"],
+			"preg_replace" : {
+				"ns" : {
+					"pattern" : "/\\\\/",
+					"replace" : "\\\\\\\\"
+				}
+			}
+        },
+		
+		
+		{
+			"name" : "/app/index.php",
+			"expand" : ["ns", "libc"],
+			"preg_replace" : {
+				"ns" : {
+					"pattern" : "/\\\\/",
+					"replace" : "\\\\\\\\"
+				}
+			}
+		},
+		
+		
+		{
+			"name" : "/app/business_data/_private/config/app.json",
+			"expand": ["defaultcmd"]
+		},
+		
+		
+		{
+			"name" : "/app/src/Commands/DefaultCmd.php",
+			"expand": ["ns", "defaultcmd"]
+		}
+        
+   ]
+}
