@@ -47,7 +47,7 @@ class WebController extends Controller {
      *
      * @return Request Returns a Request object
      */
-    protected function getRequest()
+    public function getRequest()
     {
         SecurityHelper::sanitize_array($_REQUEST);
         

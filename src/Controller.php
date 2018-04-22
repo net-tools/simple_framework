@@ -37,7 +37,7 @@ abstract class Controller {
      *
      * @return Request Returns a Request object for command parameters
      */
-    abstract protected function getRequest();
+    abstract function getRequest();
     
     
     /** 
