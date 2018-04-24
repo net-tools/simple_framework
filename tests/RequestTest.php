@@ -17,7 +17,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
      */
     public function testWrongParameters()
     {
-        $r = new Request('param');      // parameter 1 must be an array of strings
+        $r = new Request('param');      // parameter 1 must be an array of strings or an object litteral
     }
 
     
@@ -37,7 +37,14 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(true, $r->test('input1'));
         $this->assertEquals(true, $r->test('input2'));
         $this->assertEquals(false, $r->test('input3'));
-        
+
+		
+        $r = new Request((object)array('input0'=>'', 'input1'=>'value1', 'input2'=>'12'));
+        $this->assertEquals(true, $r->test('input0'));
+        $this->assertEquals(true, $r->test('input1'));
+        $this->assertEquals(true, $r->test('input2'));
+        $this->assertEquals(false, $r->test('input3'));
+		
         
         $this->assertEquals(true, $r->testArray(array('input0', 'input1')));
         $this->assertEquals(false, $r->testArray(array('input2', 'input3')));

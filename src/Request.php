@@ -32,18 +32,22 @@ class Request {
     /** 
      * Constructor for Request
      *
-     * @param string[] $params Request parameters as associative array
+     * @param \stdClass|string[] $params Request parameters as associative array or an object litteral
      * @param FileUploadRequest[] $fileUploads Associative array of FileUploadRequest objects describing file uploads
      * @throws Exceptions\InvalidParameterException Thrown if parameter $params or $fileUploads parameters are not arrays
      */
     public function __construct($params, $fileUploads = array())
     {
-        if ( !is_array($params) )
-            throw new Exceptions\InvalidParameterException("'params' parameter is not an array.");
+        if ( !is_array($params) && !(is_object($params) && (get_class($params) == 'stdClass')) )
+            throw new Exceptions\InvalidParameterException("'params' parameter is not an array or an object litteral.");
         if ( !is_array($fileUploads) )
             throw new Exceptions\InvalidParameterException("'fileUploads' parameter is not an array.");
 
-        $this->_params = $params;
+		if ( is_array($params) )
+			$this->_params = $params;
+		else 
+			$this->_params = (array)$params;
+		
         $this->_fileUploads = $fileUploads;
     }
     
