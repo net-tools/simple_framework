@@ -21,10 +21,10 @@ class FileDownloadTest extends \PHPUnit\Framework\TestCase
 
     public function testOutput()
     {
-        $this->expectOutputString(file_get_contents(__FILE__));
-        $v = new FileDownload(__FILE__, 'f.php.txt');
-        $v->immediateOutput();
-        $this->assertEquals(file_get_contents(__FILE__), $v);
+        $v = new FileDownload(__FILE__, 'f.php.txt', 'application/php');
+        $this->assertEquals(__FILE__, $v->getValue());
+		$this->assertEquals('f.php.txt', $v->getFilename());
+		$this->assertEquals('application/php', $v->getContentType());
     }
     
  

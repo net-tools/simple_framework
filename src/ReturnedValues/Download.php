@@ -25,11 +25,14 @@ abstract class Download extends Value {
     protected $_contentType = NULL;
     protected $_filename = NULL;
     
+	
     
     /** 
      * Constructor of Download value
      * 
      * @param string $value Download filename or string value to be downloaded
+	 * @param string $filename Filename suggested to user
+	 * @param string $contentType File content-type
      */
     public function __construct($value, $filename, $contentType = 'application/octet-stream')
     {
@@ -38,29 +41,42 @@ abstract class Download extends Value {
         $this->_filename = $filename;
         $this->_contentType = $contentType;
     }
-    
-    
-    /**
-     * Output headers for a download
-     */
-    public function headers()
-    {
-        header("Content-Type: " . $this->_contentType . "; name=\"" . $this->_filename . "\"");
-        header("Content-Transfer-Encoding: binary");
-        header("Content-Disposition: attachment; filename=\"" . $this->_filename . "\"");
-        header("Expires: 0");
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Pragma: no-cache");
-    }
-    
-    
-    /**
-     * Terminate the output by halting the script
-     */
-    function terminateImmediateOutput()
-    {        
-        die();
-    }
+	
+	
+	
+	/** 
+	 * Getter for contentType
+	 * 
+	 * @return string
+	 */
+	public function getContentType()
+	{
+		return $this->_contentType;
+	}
+	
+	
+	
+	/** 
+	 * Getter for value
+	 * 
+	 * @return string
+	 */
+	public function getValue()
+	{
+		return $this->_value;
+	}
+	
+	
+	
+	/** 
+	 * Getter for fileName
+	 * 
+	 * @return string
+	 */
+	public function getFilename()
+	{
+		return $this->_filename;
+	}
 }
 
 

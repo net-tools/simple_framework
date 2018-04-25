@@ -40,6 +40,7 @@ abstract class Controller {
     abstract function getRequest();
     
     
+	
     /** 
      * Constructor of controller
      *
@@ -51,6 +52,7 @@ abstract class Controller {
     }
     
     
+	
     /**
      * Get a command object, whose class is built from the CMD reserved parameter
      *
@@ -83,6 +85,7 @@ abstract class Controller {
     }
     
     
+	
     /** 
      * Execute a command
      *
@@ -101,6 +104,7 @@ abstract class Controller {
         return $cmd->execute($req, $app);
     }
     
+	
     
     /**
      * Forward a command to another one : we execute a different command with the same request 
@@ -116,6 +120,7 @@ abstract class Controller {
     }
         
     
+	
     /** 
      * Handle command failure by user
      *
@@ -123,7 +128,17 @@ abstract class Controller {
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
     abstract protected function handleCommandFailure(Exceptions\CommandFailedException $e);
-    
+  
+	
+
+	/** 
+	 * Output a value
+	 *
+	 * @param ReturnedValues\Value $value
+	 */
+	abstract protected function _outputValue(ReturnedValues\Value $value);
+  
+	
 
     /** 
      * Execute a command and handle returned value accordingly
@@ -156,11 +171,10 @@ abstract class Controller {
             if ( !$ret || !is_object($ret) || !($ret instanceof \Nettools\Simple_Framework\ReturnedValues\Value) )
                 throw new Exceptions\UnknownReturnException("Return value for command '" . $cmd->getCommandName() . "' is unknown or not a ReturnedValues\\Value class.");
 
-            // do command immediate output at beginning of script (only used by ReturnedValues\Json and ReturnedValues\Download)
-            $ret->headers();
-            $ret->immediateOutput();
-            $ret->terminateImmediateOutput();
-            return $ret;
+			
+			// output value
+			$this->_outputValue($ret);			
+			return $ret;
         }
         catch(\Throwable $e)
         {

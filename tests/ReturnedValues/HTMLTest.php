@@ -27,17 +27,6 @@ class HTMLTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('<div>fun</div>', (string)$v);
     }
     
-    
-    public function testNoOutput()
-    {
-        $this->expectOutputString('');
-        $v = new HTML('<i>string</i>');
-        $v->immediateOutput();       // a PHP value does not output to stdout
-        $this->assertEquals('<i>string</i>', $v->getValue());
-    }
-    
-    
- 
 }
 
 ?>

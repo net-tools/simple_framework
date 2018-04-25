@@ -39,9 +39,8 @@ class JsonValueTest extends \PHPUnit\Framework\TestCase
     
     public function testOutput()
     {
-        $this->expectOutputString('{"prop":"value"}');
         $v = new Json('{"prop":"value"}');
-        $v->immediateOutput();      
+        $this->assertEquals('{"prop":"value"}', $v);
     }
     
  

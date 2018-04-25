@@ -26,17 +26,6 @@ class PHPTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(false, $v->isSuccessful());
         $this->assertEquals('12', (string)$v);
     }
-    
-    
-    public function testNoOutput()
-    {
-        $this->expectOutputString('');
-        $v = new PHP('string');
-        $v->immediateOutput();       // a PHP value does not output to stdout
-        $this->assertEquals('string', $v->getValue());
-    }
-    
-    
  
 }
 

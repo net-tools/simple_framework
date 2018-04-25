@@ -57,7 +57,7 @@ namespace Nettools\Simple_Framework\Tests{
         {
             // mock abstract methods only and call default constructor with required parameters (app and user namespace)
             $this->controller_stub = $this->getMockBuilder(Controller::class)
-                        ->setMethods(['getRequest', 'handleCommandFailure'])
+                        ->setMethods(['getRequest', 'handleCommandFailure', '_outputValue'])
                         ->setConstructorArgs(['\\NT\\Tests'])->getMock();
 
             // mock method called when a command fails (CommandFailedException thrown by user)

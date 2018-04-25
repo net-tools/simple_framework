@@ -34,13 +34,7 @@ class PHP extends Value {
         $this->_value = $value;
     }
     
-    
-    public function immediateOutput()
-    {
-        // nothing to be done here
-    }
-    
-    
+   
     /**
      * Get value (usually, some HTML content or a computed value to use in page template)
      * 
@@ -51,7 +45,13 @@ class PHP extends Value {
         return $this->_value;
     }
     
+	
     
+    /**
+     * Magic method when casting to string
+     * 
+     * @return string
+     */
     public function __toString()
     {
         return $this->_value ? (string)($this->_value) : '';

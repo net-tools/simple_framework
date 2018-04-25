@@ -55,6 +55,17 @@ class UnitTestController extends Controller {
     {
     	return new ReturnedValues\PHP($e->getMessage(), false);
     }
+	
+	
+	
+	/** 
+	 * Output a value
+	 *
+	 * @param ReturnedValues\Value $value
+	 */
+	protected function _outputValue(ReturnedValues\Value $value)
+	{
+	}
     
 	
         

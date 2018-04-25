@@ -19,17 +19,9 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 */
 class StringDownload extends Download {
     
-    public function immediateOutput()
-    {
-        echo $this->_value;
-    }
-    
-    
     /**
      * Magic method when casting to string
      * 
-     * Returns content to the downloaded
-     *
      * @return string
      */
     public function __toString()

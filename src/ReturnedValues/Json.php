@@ -27,6 +27,7 @@ class Json extends Value {
     // value to be returned
     protected $_value = NULL;
     
+	
     
     /** 
      * Constructor of Json value
@@ -47,38 +48,17 @@ class Json extends Value {
     }
     
     
+	
+    /**
+     * Magic method when casting to string
+     * 
+     * @return string
+     */
     public function __toString()
     {
         return $this->_value;
     }
 
-    
-    /**
-     * Send headers for xmlhttp response in json
-     */
-    public function headers()
-    {
-        NetworkingHelper::sendXmlHttpResponseHeaders();
-    }
-    
-    
-    /**
-     * Do the output of the Json value
-     */
-    public function immediateOutput()
-    {
-        echo $this->_value;
-    }
-    
-    
-    /**
-     * Terminate the json output on stdout and halt the script
-     */
-    function terminateImmediateOutput()
-    {     
-        die();
-    }
-    
 }
 
 

@@ -19,21 +19,10 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 */
 class FileDownload extends Download {
     
-    public function immediateOutput()
-    {
-        if ( !file_exists($this->_value) )
-            throw \Nettools\Simple_Framework\Exceptions\InvalidParameterException("File '$this->_value' not found.");
-            
-        readfile($this->_value);
-    }
-    
-    
     /**
      * Magic method when casting to string
      * 
-     * Returns file content to download
-     *
-     * @return string File path to file to output
+     * @return string
      */
     public function __toString()
     {

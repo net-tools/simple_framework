@@ -20,7 +20,7 @@ use \Nettools\Core\Helpers\SecurityHelper;
 /**
  * Class for web application controller.
  * 
- * It extracts Request from $_REQUEST PHP array, file uploads from $_FILES array, and command name is specified in the reserved CMD parameter.
+ * It extracts Request from $_REQUEST PHP array, file uploads from $_FILES array
  */
 class WebController extends Controller {
 
@@ -89,6 +89,22 @@ class WebController extends Controller {
         
         $this->_http_verb = $_SERVER['REQUEST_METHOD'];
     }
+	
+	
+	
+	/** 
+	 * Output a value
+	 *
+	 * @param ReturnedValues\Value $value
+	 */
+	protected function _outputValue(ReturnedValues\Value $value)
+	{
+		$ns = '\\' . trim(__NAMESPACE__,'\\') . '\\';
+		$outputhandler_class = $ns . 'ReturnedValuesOutput\\WebController_' . substr(strrchr(get_class($value),'\\'),1);
+		
+		if ( class_exists($outputhandler_class) )
+			$outputhandler_class::output($value);
+	}
 }
 
 

@@ -21,10 +21,10 @@ class StringDownloadTest extends \PHPUnit\Framework\TestCase
 
     public function testOutput()
     {
-        $this->expectOutputString('file content');
-        $v = new StringDownload('file content', 'f.txt');
-        $v->immediateOutput();      
-        $this->assertEquals('file content', $v);
+        $v = new StringDownload('file content', 'f.txt', 'text/plain');
+        $this->assertEquals('file content', $v->getValue());
+		$this->assertEquals('f.txt', $v->getFilename());
+		$this->assertEquals('text/plain', $v->getContentType());
     }
     
  
