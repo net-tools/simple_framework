@@ -37,6 +37,12 @@ abstract class Controller {
 	protected $_authenticationPassed = false;
     
     
+
+	/** 
+	 * @var bool Does the current command require authentication ?
+	 */
+	protected $_authenticationRequired = false;
+    
     
 
     /** 
@@ -56,6 +62,18 @@ abstract class Controller {
 	public function authenticationPassed()
 	{
 		return $this->_authenticationPassed;
+	}
+    
+    
+	
+	/** 
+	 * Check if authentication is needed
+	 *
+	 * @return bool Returns true if the command requires authentication
+	 */
+	public function authenticationRequired()
+	{
+		return $this->_authenticationRequired;
 	}
     
     
@@ -240,11 +258,16 @@ abstract class Controller {
             {
 				// checking security handlers if the command is flagged as authenticated
 				if ( $cmd->requiresAuthentication() )
+				{
+					$this->_authenticationRequired = true;
+						
+						
 					// if auth ok, nothing happens ; if auth ko, an UnauthorizedCommandException exception is thrown
 					if ( !$this->checkSecurityHandlers($req, $app) )
 						throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
 					else
 						$this->_authenticationPassed = true;
+				}
 				else
 					$this->_authenticationPassed = true;
 
