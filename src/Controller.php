@@ -28,6 +28,13 @@ abstract class Controller {
      * @var string User namespace for commands
      */
     protected $_commandsNamespace = NULL;
+	
+	
+	
+	/** 
+	 * @var bool Has the current request passed the authentication process ? If no authentication handlers, we assume it passed it
+	 */
+	protected $_authenticationPassed = false;
     
     
     
@@ -38,6 +45,18 @@ abstract class Controller {
      * @return Request Returns a Request object for command parameters
      */
     abstract function getRequest();
+	
+	
+	
+	/** 
+	 * Check if authentication process has passed
+	 *
+	 * @return bool Returns true if the request has been authenticated (through its parameters or if the command is flagged as not authenticated)
+	 */
+	public function authenticationPassed()
+	{
+		return $this->_authenticationPassed;
+	}
     
     
 	
@@ -224,7 +243,12 @@ abstract class Controller {
 					// if auth ok, nothing happens ; if auth ko, an UnauthorizedCommandException exception is thrown
 					if ( !$this->checkSecurityHandlers($req, $app) )
 						throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
+					else
+						$this->_authenticationPassed = true;
+				else
+					$this->_authenticationPassed = true;
 
+				
 				
 				// execute command and get its returned value ; intercept command failed (by user) exception
                 $ret = $this->runCommand($cmd, $req, $app);

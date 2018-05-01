@@ -80,6 +80,7 @@ $output = $app->run();
     else
         echo "<span style=\"color:firebrick; font-weight:bold;\">$output</span>";
     ?>
+	<p>By the way, the authentication process returned the following boolean : <b><?php echo $app->controller->authenticationPassed() ? 'TRUE':'FALSE'; ?></b></p>
     <div>
     ====
     </div>
