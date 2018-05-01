@@ -40,6 +40,17 @@ abstract class Command {
         // get the classname with namespace, remove it and only return classname
         return strtolower(substr(strrchr('\\'.get_class($this), '\\'), 1));
     }
+	
+	
+	/** 
+	 * Does the command require authentication (through one or many SecurityHandlers\SecurityHandler objects) ?
+	 *
+	 * @return bool By default, no authentication is needed (false is returned)
+	 */
+	public function requiresAuthentication()
+	{
+		return false;
+	}
     
     
     /** 

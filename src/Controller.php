@@ -86,6 +86,42 @@ abstract class Controller {
     
     
 	
+    /**
+     * Get the security handler objects list
+     *
+     * @param Application $app Application object (used to retrieve config data)
+     * @return SecurityHandlers\SecurityHandler[] Returns a SecurityHandler list
+     * @throws Exceptions\InvalidCommandException Thrown if command class cannot be found
+     */
+    protected function getSecurityHandlers(Application $app)
+    {
+		// if no app config directive for securityhandlers list
+		if ( !$app->registry->exists('appcfg') || !$app->registry->appcfg->controller || !($handlers_obj = $app->registry->appcfg->controller->userSecurityHandlers) )
+			$handlers_obj = (object)[];
+
+		
+		// transform the property values (array of constructor parameters) to security handler object instance
+		$ret = [];
+		foreach( $handlers_obj as $handlerClass => $hparams )
+		{
+			// if security handler classname is absolute (with namespace), no need to add the lib namespace
+			if ( !(strpos($handlerClass,'\\') === 0) )
+				$handler = __NAMESPACE__ . '\\SecurityHandlers\\' . $handlerClass;
+
+			if ( !class_exists($handler) )
+				throw new Exceptions\InvalidSecurityHandlerException("Security handler '$handlerClass' does not exist.");
+
+			// parameters as array of values is transformed in an argument list thanks to the splat operator '...'
+			$ret[] = new $handler(...$hparams);
+		}
+		
+		
+		// return security handlers objects
+		return $ret;
+    }
+    
+    
+	
     /** 
      * Execute a command
      *
@@ -124,10 +160,10 @@ abstract class Controller {
     /** 
      * Handle command failure by user
      *
-     * @param Exceptions\CommandFailedException $e
+     * @param Exceptions\ApplicationException $e
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
-    abstract protected function handleCommandFailure(Exceptions\CommandFailedException $e);
+    abstract protected function handleCommandFailure(Exceptions\ApplicationException $e);
   
 	
 
@@ -137,6 +173,23 @@ abstract class Controller {
 	 * @param ReturnedValues\Value $value
 	 */
 	abstract protected function _outputValue(ReturnedValues\Value $value);
+	
+	
+	
+	/** 
+	 * Checking security handlers
+	 *
+	 * @param Request $req Request object
+     * @param Application $app Application object
+     * @throws Exceptions\UnauthorizedCommand $e
+	 */
+	protected function checkSecurityHandlers(Request $req, Application $app)
+	{
+		if ( !array_reduce($this->getSecurityHandlers($app), function($carry, $handler) use ($req){
+				return $carry && $handler->check($req);
+			}, true) )
+			throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');		
+	}
   
 	
 
@@ -153,13 +206,25 @@ abstract class Controller {
             // get request and command objects
             $req = $this->getRequest();
             $cmd = $this->getCommand($req, $app);
-            
 
+			
+			
             try
             {
-                // execute command and get its returned value ; intercept command failed (by user) exception
+				// checking security handlers if the command is flagged as authenticated
+				if ( $cmd->requiresAuthentication() )
+					// if auth ok, nothing happens ; if auth ko, an UnauthorizedCommandException exception is thrown
+					$this->checkSecurityHandlers($req, $app);
+
+				
+				// execute command and get its returned value ; intercept command failed (by user) exception
                 $ret = $this->runCommand($cmd, $req, $app);
             }
+            catch(Exceptions\UnauthorizedCommandException $e)
+			{
+				// if unauthorized command
+                $ret = $this->handleCommandFailure($e);
+			}
             catch(Exceptions\CommandFailedException $e)
             {
                 // if command aborted by user, get a returned value with unsuccessful state and an appropriate error message

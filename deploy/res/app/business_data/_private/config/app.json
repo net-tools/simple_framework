@@ -4,7 +4,10 @@
     },
     
     "controller" : {
-        "userDefaultCommand" : "%%defaultcmd%%"
+        "userDefaultCommand" : "%%defaultcmd%%",
+		"userSecurityHandlers" : {
+			%%authreq%%
+		}
     }
     
 }

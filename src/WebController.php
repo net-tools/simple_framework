@@ -65,10 +65,10 @@ class WebController extends Controller {
      * If request is sent from XMLHTTPREQUEST, we set a JSON-formatted return value ; otherwise, we return a string with the error
      * message. In both case, the returned value is set with an unsuccessful state.
      *
-     * @param Exceptions\CommandFailedException $e
+     * @param Exceptions\ApplicationException $e
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
-    protected function handleCommandFailure(Exceptions\CommandFailedException $e)
+    protected function handleCommandFailure(Exceptions\ApplicationException $e)
     {
         // si appel xmlhttp
         if ( (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0) || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )

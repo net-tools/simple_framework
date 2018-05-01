@@ -126,7 +126,8 @@ if ( $_REQUEST['app'] )
             margin-top:1.5em;
         }
         
-        form input {
+        form input,
+		form select{
             background-color: whitesmoke;
             border:1px solid darkgray;
             box-shadow: 0 0 4px lightgray;
@@ -146,16 +147,12 @@ if ( $_REQUEST['app'] )
         }
         
         form label {
-            width:10em;
+            width:15em;
             text-align: right;
             margin-right:1em;
             display: inline-block;
         }
-        
-        form div.chemins label {
-            width:15em;
-        }
-        
+                
         form div.actions {
             margin-bottom: 2em;
         }
@@ -193,9 +190,10 @@ if ( $_REQUEST['app'] )
 		
         <h2>Application</h2>
         <div class="application">
-            <p><label for="ns">Application name : </label><input type="text" id="app" required name="app" placeholder="Testapp" value="<?php echo $_REQUEST['app'];?>"></p> 
+            <p><label for="app">Application name : </label><input type="text" id="app" required name="app" placeholder="Testapp" value="<?php echo $_REQUEST['app'];?>"></p> 
             <p><label for="ns">Namespace : </label><input type="text" id="ns" required name="ns" placeholder="vendor\subns\app" value="<?php echo $_REQUEST['ns'];?>"></p> 
-            <p><label for="ns">Default command : </label><input type="text" id="defaultcmd" required name="defaultcmd" placeholder="DefaultCommandClass" value="<?php echo $_REQUEST['defaultcmd'];?>"></p> 
+            <p><label for="defaultcmd">Default command : </label><input type="text" id="defaultcmd" required name="defaultcmd" placeholder="DefaultCommandClass" value="<?php echo $_REQUEST['defaultcmd'];?>"></p> 
+            <p><label for="authreq">Authenticated requests : </label><select name="authreq" id="authreq" value="<?php echo $_REQUEST['authreq'];?>"><option value=''>No</option><option value='"HashSecurityHandler":["my secret"]'>Yes</option></select></p> 
         </div>
         
         <h2>Actions</h2>

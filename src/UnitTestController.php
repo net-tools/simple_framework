@@ -48,10 +48,10 @@ class UnitTestController extends Controller {
      *
      * We return an error message with an unsuccessful state.
      *
-     * @param Exceptions\CommandFailedException $e
+     * @param Exceptions\ApplicationException $e
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
-    protected function handleCommandFailure(Exceptions\CommandFailedException $e)
+    protected function handleCommandFailure(Exceptions\ApplicationException $e)
     {
     	return new ReturnedValues\PHP($e->getMessage(), false);
     }

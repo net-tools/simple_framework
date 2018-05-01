@@ -13,6 +13,7 @@ else
 use \Nettools\Simple_Framework\WebApplication;
 use \Nettools\Simple_Framework\Registry;
 use \Nettools\Simple_Framework\Config\ConfigObject;
+use \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler;
 
 
 
@@ -22,6 +23,7 @@ include __DIR__ . '/Commands/Test1.php';
 include __DIR__ . '/Commands/Upload.php';
 include __DIR__ . '/Commands/Failed.php';
 include __DIR__ . '/Commands/Bad_code.php';
+include __DIR__ . '/Commands/AuthenticatedRequest.php';
 
 
 
@@ -32,7 +34,19 @@ $app = new WebApplication(
         '\\Myapp\\Commands', 
     
         // registry
-        new Registry()
+        new Registry(
+                array(
+                    'appcfg' => new ConfigObject(
+                                    (object)array(
+                                        'controller'    => (object)array(
+																'userSecurityHandlers' => (object)[
+																	'HashSecurityHandler'	=> ['my secret', '_h_', '_i_']
+																]
+                                                            )
+                                    )
+                                )
+                )
+		)
     );
 
 
@@ -47,17 +61,14 @@ $output = $app->run();
     <title>Simple_Framework sample</title>
 </head>
 <body>
-    <p>In this sample, we have 3 commands : one for GET request (HTML response), one for file uploading (and response as download), one for a failing command :</p>
+    <p>In this sample, we have 2 commands ; one has required security parameters to authenticate the request, the other is missing those parameters and will fail.</p>
     <ul>
-        <li><a href="?cmd=test1&value=hello+world">Execute command 'test1'</a></li>
-        <li>
-            <form method="post" action="?cmd=upload" enctype="multipart/form-data">
-                <input type="file" name="upload">
-                <input type="submit" value="Send the file">
-            </form>
-        </li>
-        <li><a href="?cmd=failed">Failing command</a></li>
-        <li><a href="?cmd=bad_code">Command throwing a PHP exception (bad programming, calling a method on NULL value)</a></li>
+		<?php 
+		$h = HashSecurityHandler::makeHash('an_id_for_client', 'my secret');
+		$i = 'an_id_for_client';
+		?>
+        <li><a href="?cmd=authenticatedRequest&_h_=<?php echo $h; ?>&_i_=<?php echo $i; ?>">Execute command 'authenticatedRequest'</a></li>
+        <li><a href="?cmd=authenticatedRequest&_h_=wrong_value&_i_=<?php echo $i; ?>">Execute command 'authenticatedRequest' with wrong parameters</a></li>
     </ul>
     <div>
     ====
