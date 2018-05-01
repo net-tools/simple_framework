@@ -160,10 +160,19 @@ abstract class Controller {
     /** 
      * Handle command failure by user
      *
-     * @param Exceptions\ApplicationException $e
+     * @param Exceptions\CommandFailedException $e
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
-    abstract protected function handleCommandFailure(Exceptions\ApplicationException $e);
+    abstract protected function handleCommandFailure(Exceptions\CommandFailedException $e);
+  
+	
+
+    /** 
+     * Handle command unauthorized exception
+     *
+     * @return ReturnedValues\Value Returns a value representing the unauthorized command error, with an unsuccessful state
+     */
+    abstract protected function handleUnauthorizedCommand();
   
 	
 
@@ -181,14 +190,13 @@ abstract class Controller {
 	 *
 	 * @param Request $req Request object
      * @param Application $app Application object
-     * @throws Exceptions\UnauthorizedCommand $e
+     * @return bool Returns true if checks are passed
 	 */
-	protected function checkSecurityHandlers(Request $req, Application $app)
+	public function checkSecurityHandlers(Request $req, Application $app)
 	{
-		if ( !array_reduce($this->getSecurityHandlers($app), function($carry, $handler) use ($req){
+		return array_reduce($this->getSecurityHandlers($app), function($carry, $handler) use ($req){
 				return $carry && $handler->check($req);
-			}, true) )
-			throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');		
+			}, true);
 	}
   
 	
@@ -214,7 +222,8 @@ abstract class Controller {
 				// checking security handlers if the command is flagged as authenticated
 				if ( $cmd->requiresAuthentication() )
 					// if auth ok, nothing happens ; if auth ko, an UnauthorizedCommandException exception is thrown
-					$this->checkSecurityHandlers($req, $app);
+					if ( !$this->checkSecurityHandlers($req, $app) )
+						throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
 
 				
 				// execute command and get its returned value ; intercept command failed (by user) exception
@@ -223,7 +232,7 @@ abstract class Controller {
             catch(Exceptions\UnauthorizedCommandException $e)
 			{
 				// if unauthorized command
-                $ret = $this->handleCommandFailure($e);
+                $ret = $this->handleUnauthorizedCommand();
 			}
             catch(Exceptions\CommandFailedException $e)
             {

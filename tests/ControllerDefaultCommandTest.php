@@ -30,6 +30,7 @@ namespace Nettools\Simple_Framework\Tests {
     
     
     class TestNSDefaultCommandFailedException extends \Exception{}
+    class TestNSDefaultCommandUnauthorizedCommandException extends \Exception{}
 
 
 
@@ -56,13 +57,14 @@ namespace Nettools\Simple_Framework\Tests {
         {
             // mock abstract methods only and call default constructor with required parameters (app and user namespace)
             $this->controller_stub = $this->getMockBuilder(Controller::class)
-                        ->setMethods(['getRequest', 'handleCommandFailure', "_outputValue"])
+                        ->setMethods(['getRequest', 'handleCommandFailure', 'handleUnauthorizedCommand', "_outputValue"])
                         ->setConstructorArgs(['\\NT\\Tests'])->getMock();
 
             // mock method called when a command fails (CommandFailedException thrown by user)
             $this->controller_stub->method('handleCommandFailure')->will($this->throwException(new TestNSDefaultCommandFailedException('command failure')));
+        	$this->controller_stub->method('handleUnauthorizedCommand')->will($this->throwException(new TestNSDefaultCommandUnauthorizedCommandException('command not authorized')));
 
-
+			
             // create application
             $this->app = new Application(
                     // controller

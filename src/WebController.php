@@ -65,10 +65,10 @@ class WebController extends Controller {
      * If request is sent from XMLHTTPREQUEST, we set a JSON-formatted return value ; otherwise, we return a string with the error
      * message. In both case, the returned value is set with an unsuccessful state.
      *
-     * @param Exceptions\ApplicationException $e
+     * @param Exceptions\CommandFailedException $e
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
-    protected function handleCommandFailure(Exceptions\ApplicationException $e)
+    protected function handleCommandFailure(Exceptions\CommandFailedException $e)
     {
         // si appel xmlhttp
         if ( (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0) || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )
@@ -76,6 +76,21 @@ class WebController extends Controller {
         else
             return new ReturnedValues\PHP($e->getMessage(), false);
     }
+		
+	
+    /** 
+     * Handle command unauthorized exception
+     *
+     * @return ReturnedValues\Value Returns a value representing the unauthorized command error, with an unsuccessful state
+     */
+    protected function handleUnauthorizedCommand()
+	{
+        // si appel xmlhttp
+        if ( (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0) || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )
+            return new ReturnedValues\Json(json_encode(array('statut'=>false, 'message'=>'Request is not authorized.')), false);
+        else
+            return new ReturnedValues\PHP('Request is not authorized.', false);
+	}
     
         
     /** 

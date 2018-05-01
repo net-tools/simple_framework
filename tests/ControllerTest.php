@@ -15,6 +15,7 @@ use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
 
 
 class TestCommandFailedException extends \Exception{}
+class TestUnauthorizedCommandException extends \Exception{}
 
 
 
@@ -103,11 +104,12 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     {
         // mock abstract methods only and call default constructor with required parameters (no user namespace)
         $this->controller_stub = $this->getMockBuilder(Controller::class)
-                    ->setMethods(['getRequest', 'handleCommandFailure', '_outputValue'])
+                    ->setMethods(['getRequest', 'handleCommandFailure', 'handleUnauthorizedCommand', '_outputValue'])
                     ->setConstructorArgs([''])->getMock();
 
         // mock method called when a command fails (CommandFailedException thrown by user)
         $this->controller_stub->method('handleCommandFailure')->will($this->throwException(new TestCommandFailedException('command failure')));
+        $this->controller_stub->method('handleUnauthorizedCommand')->will($this->throwException(new TestUnauthorizedCommandException('command not authorized')));
 
         // create application
         $this->app = new Application(

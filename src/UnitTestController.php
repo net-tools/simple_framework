@@ -48,16 +48,28 @@ class UnitTestController extends Controller {
      *
      * We return an error message with an unsuccessful state.
      *
-     * @param Exceptions\ApplicationException $e
+     * @param Exceptions\CommandFailedException $e
      * @return ReturnedValues\Value Returns a value representing the error, with an unsuccessful state
      */
-    protected function handleCommandFailure(Exceptions\ApplicationException $e)
+    protected function handleCommandFailure(Exceptions\CommandFailedException $e)
     {
     	return new ReturnedValues\PHP($e->getMessage(), false);
     }
 	
 	
 	
+    /** 
+     * Handle command unauthorized exception
+     *
+     * @return ReturnedValues\Value Returns a value representing the unauthorized command error, with an unsuccessful state
+     */
+    protected function handleUnauthorizedCommand()
+	{
+    	return new ReturnedValues\PHP('Request is not authorized.', false);
+	}
+  
+	
+
 	/** 
 	 * Output a value
 	 *

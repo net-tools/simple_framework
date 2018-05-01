@@ -14,6 +14,13 @@ use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
 
 
 
+
+class TestSHCommandFailedException extends \Exception{}
+class TestSHUnauthorizedCommandException extends \Exception{}
+
+
+
+
 class TestSHExceptionHandler extends SimpleExceptionHandler
 {
     public function handleException(\Throwable $e)
@@ -63,8 +70,12 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     {
         // mock abstract methods only and call default constructor with required parameters (no user namespace)
         $this->controller_stub = $this->getMockBuilder(SHController::class)
-                    ->setMethods(['getRequest', 'handleCommandFailure', '_outputValue'])
+                    ->setMethods(['getRequest', 'handleCommandFailure', 'handleUnauthorizedCommand', '_outputValue'])
                     ->setConstructorArgs([''])->getMock();
+		
+        // mock method called when a command fails (CommandFailedException thrown by user)
+        $this->controller_stub->method('handleCommandFailure')->will($this->throwException(new TestSHCommandFailedException('command failure')));
+        $this->controller_stub->method('handleUnauthorizedCommand')->will($this->throwException(new TestSHUnauthorizedCommandException('command not authorized')));
     }
     
     
@@ -99,8 +110,8 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 
 	
 	/**
-	 * @expectedException \Nettools\Simple_Framework\Exceptions\UnauthorizedCommandException
-	 * @expectedExceptionMessage Request is not authorized
+	 * @expectedException TestSHUnauthorizedCommandException
+	 * @expectedExceptionMessage command not authorized
 	 */
     public function testSHCheckKo()
     {
@@ -129,8 +140,8 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		// run will fail since there's no _h and _i parameter in request
         $r = new Request(array('cmd'=>'TestAuthenticatedCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
-        
         $ret = $app->run();
+		$this->assertEquals(false, $ret->isSuccessful());
     }
     
 
@@ -212,8 +223,8 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 
 	
 	/**
-	 * @expectedException \Nettools\Simple_Framework\Exceptions\UnauthorizedCommandException
-	 * @expectedExceptionMessage Request is not authorized
+	 * @expectedException TestSHUnauthorizedCommandException
+	 * @expectedExceptionMessage command not authorized
 	 */
     public function testSHCheckKoRequestModified()
     {
