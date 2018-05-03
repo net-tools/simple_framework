@@ -167,14 +167,37 @@ abstract class Controller {
      * @param Application $app Application object
      * @return ReturnedValues\Value Returned value sent by command
      * @throws Exceptions\InvalidRequestException Thrown if request is not valid
+     * @throws Exceptions\UnauthorizedCommandException Thrown if request is not authorized
      */
     protected function runCommand(Command $cmd, Request $req, Application $app)
     {
-        // validate request for command
-        if ( !$cmd->validateRequest($req) )
-            throw new Exceptions\InvalidRequestException("Request for command '" . $cmd->getCommandName() . "' is not valid.");
-        
-        return $cmd->execute($req, $app);
+		$this->_authenticationRequired = false;
+		$this->_authenticationPassed = false;
+
+
+		// checking security handlers if the command is flagged as authenticated
+		if ( $cmd->requiresAuthentication() )
+		{
+			// set auth required flag
+			$this->_authenticationRequired = true;
+
+
+			// checking security handlers list ; returns TRUE(ok) or FALSE(ko)
+			if ( !$this->checkSecurityHandlers($req, $app) )
+				throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
+
+			// if we arrive here, required authentication passed
+			$this->_authenticationPassed = true;
+		}
+
+
+		// validate request for command
+		if ( !$cmd->validateRequest($req) )
+			throw new Exceptions\InvalidRequestException("Request for command '" . $cmd->getCommandName() . "' is not valid.");
+
+
+		// execute command and return result
+		return $cmd->execute($req, $app);
     }
     
 	
@@ -256,24 +279,12 @@ abstract class Controller {
 			
             try
             {
-				// checking security handlers if the command is flagged as authenticated
-				if ( $cmd->requiresAuthentication() )
-				{
-					$this->_authenticationRequired = true;
-						
-						
-					// if auth ok, nothing happens ; if auth ko, an UnauthorizedCommandException exception is thrown
-					if ( !$this->checkSecurityHandlers($req, $app) )
-						throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
-					else
-						$this->_authenticationPassed = true;
-				}
-				else
-					$this->_authenticationPassed = true;
-
-				
-				
-				// execute command and get its returned value ; intercept command failed (by user) exception
+				// check security if required, execute command and get its returned value
+				// intercept command failed by user exception (call to fail method)
+				// intercept command unauthorized so that the user can be redirect to login page ; otherwise 
+				//   the exception propagates to top-level catch block and is handled by simpleExceptionHandler, 
+				//   which is not suitable for general public (top-level catch block should only be used to catch
+				//   exceptions in unpredictable cases)
                 $ret = $this->runCommand($cmd, $req, $app);
             }
             catch(Exceptions\UnauthorizedCommandException $e)

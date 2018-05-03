@@ -13,6 +13,7 @@ else
 use \Nettools\Simple_Framework\WebApplication;
 use \Nettools\Simple_Framework\Registry;
 use \Nettools\Simple_Framework\Config\ConfigObject;
+use \Nettools\Simple_Framework\Config\PrivateConfig;
 
 
 
@@ -32,7 +33,11 @@ $app = new WebApplication(
         '\\Myapp\\Commands', 
     
         // registry
-        new Registry()
+        new Registry(
+			[
+				'usercfg'	=> new PrivateConfig(new ConfigObject((object)['cfg1' => 'value1', 'private1' => 'secret']))
+			]
+		)
     );
 
 

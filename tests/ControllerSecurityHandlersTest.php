@@ -51,6 +51,16 @@ class TestAuthenticatedCommand extends AuthenticatedCommand
     }
     
 }
+
+    
+class TestUnauthenticatedCommand extends Command 
+{
+    public function execute(Request $req, Application $app)
+    {
+		return $app->controller->forward(new TestAuthenticatedCommand(), $req, $app);
+    }
+    
+}
     
 
 
@@ -143,6 +153,81 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
         $ret = $app->run();
 		$this->assertEquals(false, $ret->isSuccessful());
     }
+    
+
+	
+	/**
+	 * @expectedException TestSHUnauthorizedCommandException
+	 * @expectedExceptionMessage command not authorized
+	 */
+    public function testSHCheckForwardKo()
+    {
+
+        // create application
+        $app = new Application(
+                // controller
+                $this->controller_stub, 
+            
+                // registry
+                new Registry(
+                    array(
+                        // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
+                        'appcfg' => new ConfigObject((object)array(
+											'application' => (object)array('exceptionHandler'=>TestSHExceptionHandler::class),
+                                            'controller' => (object)array(
+																'userSecurityHandlers' => (object)[
+																	'HashSecurityHandler' => ['secret_here', '_h', '_i']
+																]
+                                                            )
+                                        ))
+                    ))
+            );
+
+		
+        $r = new Request(array(
+				'cmd'	=>'TestUnauthenticatedCommand'
+			));
+        $this->controller_stub->method('getRequest')->willReturn($r);
+        $ret = $app->run();
+	}
+    
+
+	
+    public function testSHCheckForwardOk()
+    {
+
+        // create application
+        $app = new Application(
+                // controller
+                $this->controller_stub, 
+            
+                // registry
+                new Registry(
+                    array(
+                        // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
+                        'appcfg' => new ConfigObject((object)array(
+											'application' => (object)array('exceptionHandler'=>TestSHExceptionHandler::class),
+                                            'controller' => (object)array(
+																'userSecurityHandlers' => (object)[
+																	'HashSecurityHandler' => ['secret_here', '_h', '_i']
+																]
+                                                            )
+                                        ))
+                    ))
+            );
+
+		
+        $r = new Request(array(
+				'cmd'	=>'TestUnauthenticatedCommand',
+				'_h'	=> \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
+				'_i'	=> 'ID CLIENT'
+			));
+        $this->controller_stub->method('getRequest')->willReturn($r);
+        $ret = $app->run();
+		
+		// successful check because inside command we forward the process to AuthenticatedCommand, which require authentication, provided here
+		$this->assertEquals(true, true);
+	}
     
 
 	
