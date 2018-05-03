@@ -170,13 +170,13 @@ $output = $app->run();
 </html>
 ```
 
-The `WebApplication` object is created so that the application could run. Its first parameter is the namespace where to look for command classes (please refer to the first examples here, the namespace for the commands is `Myapp\Commands`), and the second parameter is a `Registry` object used to store config data (to keep the example simple, the registry is empty ; we however don't need any confi data for this test).
+The `WebApplication` object is created so that the application could run. Its first parameter is the namespace where to look for command classes (please refer to the first examples here, the namespace for the commands is `Myapp\Commands`), and the second parameter is a `Registry` object used to store config data (to keep the example simple, the registry is empty ; we don't need any config data for this test). If you need to handle sensitive config data, create your registry (with `Config\ConfigObject`, `JsonFile`, or `Json`) and then encapsulate it in a top-level `Config\PrivateConfig` registry.
 
-Then, the `run()` method is called on the `App` object : the command refered by the `cmd` querystring parameter is searched in the `Myapp\Commands` namespace, invoked, and its results set to `$output`.
+Then, the `run()` method is called on the `Application $app` object : the command refered by the `cmd` querystring parameter is searched in the `Myapp\Commands` namespace, invoked, and its results set into `$output`.
 
 In the special case of values returned as `Json` or `Download` (either `FileDownload` or `StringDownload`), the output is sent immediately to the browser, and the script is halted (since a Json response is for a XMLHttpRequest which is ended with Json output, and since a download is ended when the data has been sent, no need in both cases to let run the application). Please refer to classes in the `ReturnedValues` sub-namespace of `Nettools\Simple_Framework` for a complete list of acceptable returned values (all inheriting from `ReturnedValues\Value`).
 
-In other cases, the command returns a value, which is fetched from `$app->run()` execution. In most cases this will be some HTML content or a primitive PHP type (string, int, etc.), that you can include in your page template later : `echo $output` will cast the `ReturnedValues\Value` object to a string.
+In other cases, the command returns a value, which is fetched from `$app->run()` execution. In most cases this will be some HTML content or a primitive PHP type (string, int, etc.), that you can include or use in your page template later : `echo $output` will cast the `ReturnedValues\Value` object to a string.
 
 
 ### Handling error cases and exceptions
@@ -185,12 +185,14 @@ When an exception occurs or when you want a command to fail on purpose, the fram
 
 #### Exceptions : the framework handles then
 
-Exceptions thrown (and not catched by your code) during code execution are catched in the `run()` method of `App` and a specific screen with all required data for debugging is displayed (and the script is halted). For your information, this debugging data is formatted by `Nettools\Core\ExceptionHandlers\SimpleExceptionHandler` (you may refer to the Nettools\Core package to read more documentation : http://net-tools.ovh/api-reference/net-tools/Nettools/Core/ExceptionHandlers.html ).
+Exceptions thrown (and not catched by your code) during code execution are catched in the `run()` method of `Controller` object and a specific screen with all required data for debugging is displayed (and the script is halted). For your information, this debugging data is formatted by `Nettools\Core\ExceptionHandlers\SimpleExceptionHandler` (you may refer to the Nettools\Core package to read more documentation : http://net-tools.ovh/api-reference/net-tools/Nettools/Core/ExceptionHandlers.html ).
+
+You may set another exception handler (for example, you don't want debug data displayed on screen and prefer sending debug data to the webadmin by email) ; to do so, when creating the `$app` object, create a `Registry` named `appcfg` and set its `application->exceptionHandler` value to a handler of your choice (however, it must inherit from `Nettools\Core\ExceptionHandlers\ExceptionHandler`).
 
 
 #### Error cases : failures
 
-Sometimes, you want to say that a command execution has not succeeded. To do so, you call the `fail()` method of `App` with the appropriate error message :
+Sometimes, you want to say that a command execution has not succeeded. To do so, during your command `execute` call, call the `fail()` on `$this` with the appropriate error message :
 
 ```php
 class Failed extends Command
@@ -204,9 +206,9 @@ class Failed extends Command
 
 The application controller will then process the error : 
 
-- if the request has been sent with GET/POST, the `run()` method of `App` will return a ReturnedValues\StringValue object with an unsuccessful state. It's up to you to detect the unsuccessful answer and do any appropriate stuff by calling the `isSuccessful()` method of the returned value : `$output = $app->run(); if ( !$output->isSuccessful() ) echo "error : " . $output;`
+- if the request has been sent with GET/POST, the `run()` method of `Application` will return a ReturnedValues\StringValue object with an unsuccessful state. It's up to you to detect the unsuccessful answer and do any appropriate stuff by calling the `isSuccessful()` method of the returned value : `$output = $app->run(); if ( !$output->isSuccessful() ) echo "error : " . $output;`
 
-- if the request has been sent through a XMLHttpRequest, the `run()` method of `App` will automatically output a Json string on stdout and halt the script : `{"statut":false,"message":"Something went wrong"}`
+- if the request has been sent through a XMLHttpRequest, the `run()` method of `Application` (in fact, it's the `run()` method of `Controller` object) will automatically output a Json string on stdout and halt the script : `{"statut":false,"message":"Something went wrong"}`
 
 
 If you want to answer with an error feedback other than a string, you can't use the fail mechanism. However, you can reply to the command with a ReturnedValues\Value with an unsuccessful state ; all *returnXXX* methods of `Command` class have a second parameter to set the state of the execution (successful/true by default).
