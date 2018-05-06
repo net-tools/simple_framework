@@ -170,11 +170,13 @@ $output = $app->run();
 </html>
 ```
 
-The `WebApplication` object is created so that the application could run. Its first parameter is the namespace where to look for command classes (please refer to the first examples here, the namespace for the commands is `Myapp\Commands`), and the second parameter is a `Registry` object used to store config data (to keep the example simple, the registry is empty ; we don't need any config data for this test). If you need to handle sensitive config data, create your registry (with `Config\ConfigObject`, `JsonFile`, or `Json`) and then encapsulate it in a top-level `Config\PrivateConfig` registry.
+The `WebApplication` object is created so that the application could run. Its first parameter is the namespace where to look for command classes (please refer to the first examples here, the namespace for the commands is `Myapp\Commands`), and the second parameter is a `Registry` object used to store config data (to keep the example simple, the registry is empty ; we don't need any config data for this test). If you need to handle sensitive config data, create your registry (with `Config\ConfigObject`, `JsonFile`, or `Json`) and then encapsulate it in a top-level `Config\PrivateConfig` registry (see specific sample file).
 
 Then, the `run()` method is called on the `Application $app` object : the command refered by the `cmd` querystring parameter is searched in the `Myapp\Commands` namespace, invoked, and its results set into `$output`.
 
-In the special case of values returned as `Json` or `Download` (either `FileDownload` or `StringDownload`), the output is sent immediately to the browser, and the script is halted (since a Json response is for a XMLHttpRequest which is ended with Json output, and since a download is ended when the data has been sent, no need in both cases to let run the application). Please refer to classes in the `ReturnedValues` sub-namespace of `Nettools\Simple_Framework` for a complete list of acceptable returned values (all inheriting from `ReturnedValues\Value`).
+For web applications (which will probably be the case), some returned values should be sent immediately to the browser (`Json`, `Download`, either `FileDownload` or `StringDownload`) ; the process to do that output or not (depending on the returned value type) is handled by the classes in `ReturnedValuesOutput` sub-namespace. If a class named `WebController_xxxx`, where xxxx stands for the returned value class (`Download`, `Json`, etc.), this class is responsible for the output. If no class is found for a returned value, there's no output to browser, and the value will be returned by `$app->run()`.
+
+Please refer to classes in the `ReturnedValues` sub-namespace of `Nettools\Simple_Framework` for a complete list of acceptable returned values (all inheriting from `ReturnedValues\Value`).
 
 In other cases, the command returns a value, which is fetched from `$app->run()` execution. In most cases this will be some HTML content or a primitive PHP type (string, int, etc.), that you can include or use in your page template later : `echo $output` will cast the `ReturnedValues\Value` object to a string.
 
@@ -183,11 +185,12 @@ In other cases, the command returns a value, which is fetched from `$app->run()`
 
 When an exception occurs or when you want a command to fail on purpose, the framework will do some specific stuff.
 
+
 #### Exceptions : the framework handles then
 
 Exceptions thrown (and not catched by your code) during code execution are catched in the `run()` method of `Controller` object and a specific screen with all required data for debugging is displayed (and the script is halted). For your information, this debugging data is formatted by `Nettools\Core\ExceptionHandlers\SimpleExceptionHandler` (you may refer to the Nettools\Core package to read more documentation : http://net-tools.ovh/api-reference/net-tools/Nettools/Core/ExceptionHandlers.html ).
 
-You may set another exception handler (for example, you don't want debug data displayed on screen and prefer sending debug data to the webadmin by email) ; to do so, when creating the `$app` object, create a `Registry` named `appcfg` and set its `application->exceptionHandler` value to a handler of your choice (however, it must inherit from `Nettools\Core\ExceptionHandlers\ExceptionHandler`).
+You may set another exception handler (for example, you don't want debug data displayed on screen and prefer sending debug data to the webadmin by email) ; to do so, when creating the `$app` object, create a `Registry` named `appcfg` and set its `application->exceptionHandler` value to a handler of your choice (however, it must inherit from `Nettools\Core\ExceptionHandlers\ExceptionHandler`, such as `Nettools\Core\ExceptionHandlers\PublicExceptionHandler` which display on screen a short message about exception, with no debug data ; debug data is sent to postmaster@yourdomain.com as email body and attachment with stack trace).
 
 
 #### Error cases : failures
@@ -222,6 +225,20 @@ class ErrorOccured extends Command
     }
 }
 ```
+
+
+### Security features
+
+The framework can be used with no security features at all (except request being sanitized) or can be configured to send request with a special computed token identifying the user (thus preventing unauthorized requests being made on behalf of other users).
+
+The token is created through a secret (to be configured in the `appcfg` registry, in `controller->userSecurityHandlers` array of security handlers) and the current user ID in the request (can be any request parameter ; by default, it's the `i` parameter). It's passed in the request, along with other parameters, as a `h` parameter (by default, but can be named with anything else). See appropriate sample for use case.
+
+This token-based security feature **only** prevents hackers to issue request for another user ID without being authorized (logged), since they don't know how to compute the token value (don't know the secret nor the hash process). 
+
+However, it **does not** prevent the request to be issued several times (the token is not a nonce value), nor does it prevent the request to be vulnerable to CSRF attacks.
+
+In future releases, CSRF security features and nonce token may be implemented.
+
 
 ## API Reference
 
