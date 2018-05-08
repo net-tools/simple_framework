@@ -42,6 +42,12 @@ abstract class Controller {
 	 * @var bool Does the current command require authentication ?
 	 */
 	protected $_authenticationRequired = false;
+	
+	
+	/**
+	 * @var SecurityHandlers\SecurityHandler[] Array of security handlers
+	 */
+	protected $_securityHandlers = NULL;
     
     
 
@@ -132,6 +138,11 @@ abstract class Controller {
      */
     protected function getSecurityHandlers(Application $app)
     {
+		// see if already cached
+		if ( !is_null($this->_securityHandlers) )
+			return $this->_securityHandlers;
+		
+		
 		// if no app config directive for securityhandlers list
 		if ( !$app->registry->exists('appcfg') || !$app->registry->appcfg->controller || !($handlers_obj = $app->registry->appcfg->controller->userSecurityHandlers) )
 			$handlers_obj = (object)[];
@@ -154,7 +165,7 @@ abstract class Controller {
 		
 		
 		// return security handlers objects
-		return $ret;
+		return $this->_securityHandlers = $ret;
     }
     
     
@@ -174,14 +185,17 @@ abstract class Controller {
 		$this->_authenticationRequired = false;
 		$this->_authenticationPassed = false;
 
+		
+		// get security handlers list as defined in app config ; it will be used or not depending on the requiresAuthentication flag of command
+		$this->getSecurityHandlers($app);
+				
 
 		// checking security handlers if the command is flagged as authenticated
 		if ( $cmd->requiresAuthentication() )
 		{
 			// set auth required flag
 			$this->_authenticationRequired = true;
-
-
+			
 			// checking security handlers list ; returns TRUE(ok) or FALSE(ko)
 			if ( !$this->checkSecurityHandlers($req, $app) )
 				throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
@@ -257,6 +271,26 @@ abstract class Controller {
 		return array_reduce($this->getSecurityHandlers($app), function($carry, $handler) use ($req){
 				return $carry && $handler->check($req);
 			}, true);
+	}
+	
+	
+	
+	/** 
+	 * Get a security handler
+	 *
+	 * @param string $classname
+     * @param Application $app Application object
+	 * @return SecurityHandlers\SecurityHandler
+	 * @throws Exceptions\InvalidSecurityHandlerException Thrown if security handler $classname does not exist in app
+	 */
+	public function getSecurityHandler($classname, Application $app)
+	{
+		foreach ( $this->getSecurityHandlers($app) as $sech )
+			if ( $sech instanceof $classname )
+				return $sech;
+		
+		// if nothing found, this is an error
+		throw new Exceptions\InvalidSecurityHandlerException("Security handler '$classname' not found in application security layer.");
 	}
   
 	

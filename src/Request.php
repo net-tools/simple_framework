@@ -154,6 +154,17 @@ class Request {
 
         return $this->_fileUploads[$k];
     }
+	
+	
+	/** 
+	 * Get request as associative array
+	 *
+	 * @return string[]
+	 */
+	public function getRequestAsArray()
+	{
+		return $this->_params;
+	}
     
     
     /** 
