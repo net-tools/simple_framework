@@ -13,7 +13,7 @@ namespace Nettools\Simple_Framework\SecurityHandlers;
 
 use \Nettools\Core\Helpers\SecureRequestHelper;
 use \Nettools\Core\Helpers\SecureRequestHelper\CSRFException;
-
+use \Nettools\Simple_Framework\Exceptions\InvalidParameterException;
 
 
 
@@ -53,6 +53,25 @@ class CSRFSecurityHandler extends SecurityHandler {
 	{
 		return $this->_sec;
 	}
+	
+	
+	
+	/**
+	 * Magic method to act as a proxy to the underlying SecureRequestHelper
+	 *
+	 * @param string $method
+	 * @param string[] $args
+	 * @return mixed
+	 * @throws \Nettools\Simple_Framework\Exceptions\InvalidParameterException; Thrown if $method is not a method of the underlying SecureRequestHelper object
+	 */
+	 public function __call($method, $args)
+	 {
+		 // check if method exists in underlying object
+		 if ( method_exists($this->_sec, $method) )
+			 return call_user_func_array(array($this->_sec, $method), $args);
+		 else
+			 throw new InvalidParameterException("Method '$method' does not exists in security handler '" . get_class($this->_sec) . "'.");
+	 }
 	
 	
 	

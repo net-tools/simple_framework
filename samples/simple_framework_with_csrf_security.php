@@ -65,11 +65,9 @@ $output = $app->run();
 		parameters and will fail ; the fourth command revokes the CSRF layer and subsequent commands will fail.</p>
     <ul>
 		<?php
-		$sec = $app->controller->getSecurityHandler(CSRFSecurityHandler::class, $app)->getSecureRequestHelper();
-		
 		try
 		{
-			$cookie = $sec->getCSRFCookie();
+			$cookie = $app->controller->getCSRFSecurityHandler()->getCSRFCookie();
 		}
 		catch (\Nettools\Core\Helpers\SecureRequestHelper\CSRFException $e)
 		{

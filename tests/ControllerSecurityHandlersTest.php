@@ -11,6 +11,7 @@ use \Nettools\Simple_Framework\Application;
 use \Nettools\Simple_Framework\Registry;
 use \Nettools\Simple_Framework\Config\ConfigObject;
 use \Nettools\Core\ExceptionHandlers\SimpleExceptionHandler;
+use \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler;
 
 
 
@@ -91,7 +92,6 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
     public function testSH()
     {
-
         // create application
         $app = new Application(
                 // controller
@@ -114,8 +114,79 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		
 		// this request has no CMD parameter, so the default library command (defaultCommand class) will be used (it returns a NULL value)
         $this->assertEquals(1, count($this->controller_stub->getHandlers($app)));
-		$this->assertInstanceOf(\Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler::class, $this->controller_stub->getHandlers($app)[0]);
-    }
+		$this->assertInstanceOf(HashSecurityHandler::class, $this->controller_stub->getHandlers($app)[0]);
+
+		// testing fetch a given security handler
+		$this->assertInstanceOf(HashSecurityHandler::class, $this->controller_stub->getSecurityHandler(HashSecurityHandler::class));
+		
+		// testing magic method to fetch security handlers
+		$this->assertInstanceOf(HashSecurityHandler::class, $this->controller_stub->getHashSecurityHandler());
+	}
+    
+
+	
+	/**
+	 * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidSecurityHandlerException
+	 */
+    public function testMagicCallSH()
+    {
+        // create application
+        $app = new Application(
+                // controller
+                $this->controller_stub, 
+            
+                // registry
+                new Registry(
+                    array(
+                        // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
+                        'appcfg' => new ConfigObject((object)array(
+                                            'controller' => (object)array(
+																'userSecurityHandlers' => (object)[
+																	'HashSecurityHandler' => ['secret_here', '_h', '_i']
+																]
+                                                            )
+                                        ))
+                    ))
+            );
+
+		
+		// call this user-defined function in the stub, so that the handlers are created (through a protected call to getSecurityHandlers)
+		$this->controller_stub->getHandlers($app);
+		
+		// testing magic method to fetch security handlers
+		$this->assertInstanceOf(HashSecurityHandler::class, $this->controller_stub->getInexistantSecurityHandler());
+	}
+    
+
+	
+	/**
+	 * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
+	 */
+    public function testMagicCallMethod()
+    {
+        // create application
+        $app = new Application(
+                // controller
+                $this->controller_stub, 
+            
+                // registry
+                new Registry(
+                    array(
+                        // define appcfg to set a custom exception handler (since the default one outputs error and headers to stdout)
+                        'appcfg' => new ConfigObject((object)array(
+                                            'controller' => (object)array(
+																'userSecurityHandlers' => (object)[
+																	'HashSecurityHandler' => ['secret_here', '_h', '_i']
+																]
+                                                            )
+                                        ))
+                    ))
+            );
+
+		
+		// testing magic method to fetch a non existant method
+		$this->assertInstanceOf(HashSecurityHandler::class, $this->controller_stub->getDummyMethod());
+	}
     
 
 	
@@ -219,7 +290,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		
         $r = new Request(array(
 				'cmd'	=>'TestUnauthenticatedCommand',
-				'_h'	=> \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
+				'_h'	=> HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
 				'_i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
@@ -257,7 +328,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		
         $r = new Request(array(
 				'cmd'	=>'TestAuthenticatedCommand', 
-				'_h'	=> \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
+				'_h'	=> HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
 				'_i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
@@ -295,7 +366,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		
         $r = new Request(array(
 				'cmd'=>'TestAuthenticatedCommand', 
-				'h'	=> \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
+				'h'	=> HashSecurityHandler::makeHash('ID CLIENT', 'secret_here'),
 				'i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
@@ -338,7 +409,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		// run will fail because the _h value has been modified
         $r = new Request(array(
 				'cmd'	=> 'TestAuthenticatedCommand', 
-				'_h'	=> \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler::makeHash('OTHER ID CLIENT', 'secret_here'),
+				'_h'	=> HashSecurityHandler::makeHash('OTHER ID CLIENT', 'secret_here'),
 				'_i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);

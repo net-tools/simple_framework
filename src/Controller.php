@@ -186,7 +186,7 @@ abstract class Controller {
 		$this->_authenticationPassed = false;
 
 		
-		// get security handlers list as defined in app config ; it will be used or not depending on the requiresAuthentication flag of command
+		// always create the array of security handlers as defined in app config ; it will be used or not depending on the requiresAuthentication flag of command
 		$this->getSecurityHandlers($app);
 				
 
@@ -197,7 +197,7 @@ abstract class Controller {
 			$this->_authenticationRequired = true;
 			
 			// checking security handlers list ; returns TRUE(ok) or FALSE(ko)
-			if ( !$this->checkSecurityHandlers($req, $app) )
+			if ( !$this->checkSecurityHandlers($req) )
 				throw new Exceptions\UnauthorizedCommandException('Request is not authorized.');
 
 			// if we arrive here, required authentication passed
@@ -263,14 +263,36 @@ abstract class Controller {
 	 * Checking security handlers
 	 *
 	 * @param Request $req Request object
-     * @param Application $app Application object
      * @return bool Returns true if checks are passed
 	 */
-	public function checkSecurityHandlers(Request $req, Application $app)
+	public function checkSecurityHandlers(Request $req)
 	{
-		return array_reduce($this->getSecurityHandlers($app), function($carry, $handler) use ($req){
+		return array_reduce($this->_securityHandlers, function($carry, $handler) use ($req){
 				return $carry && $handler->check($req);
 			}, true);
+	}
+	
+	
+	
+	/** 
+	 * Magic method to access security handlers
+	 *
+	 * @param string $method
+	 * @param string[] $args
+	 * @return mixed
+	 * @throws Exceptions\InvalidSecurityHandlerException Thrown if security handler $classname does not exist in app
+	 * @throws Exceptions\InvalidParameterException Thrown if magic call to method is not supported (does not reference a security handler)
+	 */
+	public function __call($method, $args)
+	{
+		// check we are looking for a security handler
+		if ( preg_match('/^get([a-zA-Z0-9]*)SecurityHandler$/', $method, $regs) )
+		{
+			$class = rtrim(__NAMESPACE__, '\\') . "\\SecurityHandlers\\{$regs[1]}SecurityHandler";
+			return $this->getSecurityHandler($class);
+		}
+		else
+			throw new Exceptions\InvalidParameterException("Unsupported magic call to method '$method' in '{" . __CLASS__ . "'");
 	}
 	
 	
@@ -279,13 +301,18 @@ abstract class Controller {
 	 * Get a security handler
 	 *
 	 * @param string $classname
-     * @param Application $app Application object
 	 * @return SecurityHandlers\SecurityHandler
 	 * @throws Exceptions\InvalidSecurityHandlerException Thrown if security handler $classname does not exist in app
+	 * @throws Exceptions\ApplicationException Thrown if security handlers list has not been initialized yet
 	 */
-	public function getSecurityHandler($classname, Application $app)
+	public function getSecurityHandler($classname)
 	{
-		foreach ( $this->getSecurityHandlers($app) as $sech )
+		if ( is_null($this->_securityHandlers) )
+			// if nothing found, this is an error
+			throw new Exceptions\ApplicationException("Security handlers layer has not been initialized.");
+		
+
+		foreach ( $this->_securityHandlers as $sech )
 			if ( $sech instanceof $classname )
 				return $sech;
 		
