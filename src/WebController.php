@@ -91,6 +91,43 @@ class WebController extends Controller {
         else
             return new ReturnedValues\PHP('Request is not authorized.', false);
 	}
+	
+	
+	
+	/** 
+	 * At browser reception of output, automatically send a POST command.
+	 *
+	 * Useful to convert a GET request to a POST request immediately ; we can also use that after successful authentication of user
+	 * to add IDs, hash or CSRF values in the request.
+	 *
+	 * @param string $cmd Command name to execute
+	 * @param string[] $postData Associative array describing request parameters
+	 */	 
+	public function sendPOST($cmd, array $postData = [])
+	{
+		?>
+		<html>
+			<head>
+			</head>
+			<body>
+				<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" style="display: none; visibility: hidden;">
+					<input type="hidden" name="cmd" value="<?php echo $cmd; ?>">
+					<?php
+					foreach ( $postData as $k => $v )
+						echo "<input type=\"hidden\" name=\"$k\" value=\"" . htmlspecialchars($v) . "\">";
+					?>
+				</form>
+				<script language="javascript">
+				document.forms[0].submit();
+				</script>
+			</body>
+		</html>
+		<?php
+		
+		// halting script here
+		die();
+	}
+	
     
         
     /** 

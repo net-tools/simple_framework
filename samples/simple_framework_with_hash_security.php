@@ -20,6 +20,8 @@ use \Nettools\Simple_Framework\SecurityHandlers\HashSecurityHandler;
 // we have to include our commands ; of course, on a real application, you would use an autoload 
 // mechanism for your own files
 include __DIR__ . '/Commands/AuthenticatedRequest.php';
+include __DIR__ . '/Commands/RedirectGETtoPOST.php';
+include __DIR__ . '/Commands/RedirectedToPOST.php';
 
 
 
@@ -50,6 +52,13 @@ $app = new WebApplication(
 // execute app ; exceptions are catched inside run()
 $output = $app->run();
 
+
+if ( $app->controller->getRequest()->cmd == 'redirectGETtoPOST' )
+{
+	$app->controller->sendPOST('redirectedToPOST', ['param1'=>'', 'param2'=>'characters to encode properly : "+=<>']);
+}
+
+
 ?><!doctype html>
 <html>
 <head>
@@ -57,7 +66,8 @@ $output = $app->run();
     <title>Simple_Framework sample</title>
 </head>
 <body>
-    <p>In this sample, we have 2 commands ; one has required security parameters to authenticate the request, the other is missing those parameters and will fail.</p>
+    <p>In this sample, we have 3 commands ; one has required security parameters to authenticate the request, the second is missing those parameters and will fail ; 
+	the third one is a GET request which will be transformed to a POST request.</p>
     <ul>
 		<?php 
 		$h = HashSecurityHandler::makeHash('an_id_for_client', 'my secret');
@@ -65,6 +75,7 @@ $output = $app->run();
 		?>
         <li><a href="?cmd=authenticatedRequest&_h_=<?php echo $h; ?>&_i_=<?php echo $i; ?>">Execute command 'authenticatedRequest'</a></li>
         <li><a href="?cmd=authenticatedRequest&_h_=wrong_value&_i_=<?php echo $i; ?>">Execute command 'authenticatedRequest' with wrong parameters</a></li>
+        <li><a href="?cmd=redirectGETtoPOST">Execute command 'redirectGETtoPOST'</a></li>
     </ul>
     <div>
     ====
