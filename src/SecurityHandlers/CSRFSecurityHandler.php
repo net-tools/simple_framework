@@ -33,9 +33,8 @@ class CSRFSecurityHandler extends SecurityHandler {
 	/**
 	 * Constructor
 	 * 
-	 * @param string $secret Secret string used to compute hash
-	 * @param string $hparam Name of the Request object hash parameter (defaults to 'h')
-	 * @param string $idparam Name of the Request object client id parameter (defaults to 'i')
+	 * @param string $csrf_cookiename Name of CSRF cookie
+	 * @param string $csrf_submittedvaluename Name of double submit CSRF value in a form
 	 */
 	public function __construct($csrf_cookiename = '_CSRF_', $csrf_submittedvaluename = '_FORM_CSRF_')
 	{

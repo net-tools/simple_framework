@@ -55,6 +55,7 @@ $output = $app->run();
 
 if ( $app->controller->getRequest()->cmd == 'redirectGETtoPOST' )
 {
+	// send redirect ; script halts here
 	$app->controller->sendPOST('redirectedToPOST', ['param1'=>'', 'param2'=>'characters to encode properly : "+=<>']);
 }
 

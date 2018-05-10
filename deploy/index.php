@@ -193,7 +193,7 @@ if ( $_REQUEST['app'] )
             <p><label for="app">Application name : </label><input type="text" id="app" required name="app" placeholder="Testapp" value="<?php echo $_REQUEST['app'];?>"></p> 
             <p><label for="ns">Namespace : </label><input type="text" id="ns" required name="ns" placeholder="vendor\subns\app" value="<?php echo $_REQUEST['ns'];?>"></p> 
             <p><label for="defaultcmd">Default command : </label><input type="text" id="defaultcmd" required name="defaultcmd" placeholder="DefaultCommandClass" value="<?php echo $_REQUEST['defaultcmd'];?>"></p> 
-            <p><label for="authreq">Authenticated requests : </label><select name="authreq" id="authreq" value="<?php echo $_REQUEST['authreq'];?>"><option value=''>No</option><option value='"HashSecurityHandler":["my secret"]'>Yes</option></select></p> 
+            <p><label for="authreq">Authenticated requests : </label><select name="authreq" id="authreq" value="<?php echo $_REQUEST['authreq'];?>"><option value=''>No</option><option value='"HashSecurityHandler":["my secret"]'>Hash</option><option value='"CSRFSecurityHandler":[]'>CSRF</option><option value='"HashSecurityHandler":["my secret"], "CSRFSecurityHandler":[]'>Hash + CSRF</option></select></p> 
         </div>
         
         <h2>Actions</h2>
