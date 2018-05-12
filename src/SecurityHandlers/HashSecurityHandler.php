@@ -62,7 +62,7 @@ class HashSecurityHandler extends SecurityHandler {
 	 */
 	public function check(\Nettools\Simple_Framework\Request $req)
 	{
-		return $req->{$this->_hparam} == self::makeHash($req->{$this->_idparam}, $this->_secret);
+		return hash_equals(self::makeHash($req->{$this->_idparam}, $this->_secret), $req->{$this->_hparam});
 	}
 	
 }
