@@ -62,7 +62,15 @@ class HashSecurityHandler extends SecurityHandler {
 	 */
 	public function check(\Nettools\Simple_Framework\Request $req)
 	{
-		return hash_equals(self::makeHash($req->{$this->_idparam}, $this->_secret), $req->{$this->_hparam});
+		try
+		{
+			return hash_equals(self::makeHash($req->{$this->_idparam}, $this->_secret), $req->{$this->_hparam});
+		}
+		// catching when one of hash_equals parameters is null (E_WARNING)
+		catch(\ErrorException $e)
+		{
+			return false;
+		}
 	}
 	
 }
