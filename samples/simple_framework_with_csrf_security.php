@@ -38,7 +38,7 @@ $app = new WebApplication(
                                     (object)array(
                                         'controller'    => (object)array(
 																'userSecurityHandlers' => (object)[
-																	'CSRFSecurityHandler'	=> ['_myCSRF_', '_CSRF_value_']
+																	'CSRFSecurityHandler'	=> ['_myCSRF_', '_CSRF_value_', __FILE__]
 																]
                                                             )
                                     )
@@ -68,6 +68,7 @@ $output = $app->run();
 		try
 		{
 			$cookie = $app->controller->getCSRFSecurityHandler()->getCSRFCookie();
+			$hashedCookie = $app->controller->getCSRFSecurityHandler()->getHashedCSRFCookie();
 		}
 		catch (\Nettools\Core\Helpers\SecureRequestHelper\CSRFException $e)
 		{
@@ -76,6 +77,7 @@ $output = $app->run();
 		?>
         <li><a href="?cmd=initCSRF">Initialize CSRF security layer</a></li>
         <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=<?php echo $cookie; ?>&value=test+value">Execute command 'authenticatedCSRFRequest'</a></li>
+        <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=<?php echo $hashedCookie; ?>&value=test+value">Execute command 'authenticatedCSRFRequest' with hashed CSRF submitted value</a></li>
         <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=wrong_value&value=test+value">Execute command 'authenticatedCSRFRequest' with wrong parameters</a></li>
         <li><a href="?cmd=revokeCSRF">Revoke CSRF security layer</a></li>
     </ul>
