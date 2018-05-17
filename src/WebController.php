@@ -145,6 +145,26 @@ class WebController extends Controller {
 	
 	
 	/** 
+	 * Do login process
+	 *
+	 * @param string[] Associative array of parameters/values describing the login context ; may include a user ID, for example
+	 * @param string Command name to redirect the login process to (useful to include security parameters in querystring/post data which don't exist at the moment in the request) ; if NULL, no redirect is done
+	 */
+	public function login(array $context, $redirectCommand = NULL)
+	{
+		foreach ( $this->_securityHandlers as $sech )
+			// initialize security handler with context
+			$sech->initialize($context);
+		
+		
+		// if we want to redirect after login
+		if ( $redirectCommand )
+			$this->sendPOST($redirectCommand, $context);
+	}
+	
+	
+	
+	/** 
 	 * Output a value
 	 *
 	 * @param ReturnedValues\Value $value

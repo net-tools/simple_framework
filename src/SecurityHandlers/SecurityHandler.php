@@ -28,6 +28,14 @@ abstract class SecurityHandler {
 	 */
 	abstract public function check(\Nettools\Simple_Framework\Request $req);
 	
+	
+	
+	/**
+	 * Initialize the security handler
+	 *
+	 * @param string[] Initialize context
+	 */
+	abstract public function initialize(array &$context);
 }
 
 

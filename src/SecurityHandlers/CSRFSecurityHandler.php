@@ -57,6 +57,22 @@ class CSRFSecurityHandler extends SecurityHandler {
 	
 	
 	/**
+	 * Initialize the security handler
+	 *
+	 * @param string[] Initialize context
+	 */
+	public function initialize(array &$context)
+	{
+		// init CSRF
+		$this->_sec->initializeCSRF();
+		
+		// add a parameter in context
+		$context[$this->_sec->getCSRFSubmittedValueName()] = $this->_sec->getCSRFCookie();		
+	}
+	
+	
+	
+	/**
 	 * Magic method to act as a proxy to the underlying SecureRequestHelper
 	 *
 	 * @param string $method

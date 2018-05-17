@@ -41,6 +41,19 @@ class HashSecurityHandler extends SecurityHandler {
 	
 	
 	/**
+	 * Initialize the security handler
+	 *
+	 * @param string[] Initialize context
+	 */
+	public function initialize(array &$context)
+	{
+		// add a parameter in context
+		$context[$this->_hparam] = $this->makeHash($context[$this->_idparam], $this->_secret);
+	}
+	
+	
+	
+	/**
 	 * Create a hash value based on an ID (usually the client identifier, such as an email or db id) and a secret
 	 * 
 	 * @param string $id
