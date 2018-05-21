@@ -110,7 +110,7 @@ class WebController extends Controller {
 			<head>
 			</head>
 			<body>
-				<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" style="display: none; visibility: hidden;">
+				<form method="post" action="<?php echo $_SERVER['SCRIPT_URL'];?>" style="display: none; visibility: hidden;">
 					<input type="hidden" name="cmd" value="<?php echo $cmd; ?>">
 					<?php
 					foreach ( $postData as $k => $v )
