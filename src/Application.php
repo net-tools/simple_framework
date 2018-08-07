@@ -46,7 +46,7 @@ class Application {
     public function __get($k)
     {
         if ( !property_exists(get_class($this), "_$k") )
-            throw new Exceptions\InvalidParemeterException("Property '$k' does not exist in application class.");
+            throw new Exceptions\InvalidParameterException("Property '$k' does not exist in application class.");
         
         return $this->{"_$k"};
     }
