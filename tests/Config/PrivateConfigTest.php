@@ -23,8 +23,8 @@ class PrivateConfigTest extends \PHPUnit\Framework\TestCase
 		
 		
 		$private = new PrivateConfig($o);
-		$this->assertContains('** HIDDEN **', print_r($private, true));
-		$this->assertNotContains('secret1', print_r($private, true));
+		$this->assertStringContainsString('** HIDDEN **', print_r($private, true));
+		$this->assertStringNotContainsString('secret1', print_r($private, true));
     }
    
 }
