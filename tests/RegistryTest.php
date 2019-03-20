@@ -13,23 +13,23 @@ use \Nettools\Simple_Framework\Config\ConfigObject;
 
 class RegistryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-     */
     public function testEmptyRegistry()
     {
-        $r = new Registry(array());
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
+
+		
+		$r = new Registry(array());
         $this->assertEquals(false, $r->exists('reg'));
         $r->reg->prop = 12;     // registry named 'reg' doesn't exist
     }
     
  
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-     */
     public function testWrongTypeRegistry()
     {
-        $r = new Registry(array('reg'=>array()));       // wrong type here, must implement Config\Config
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
+
+		
+		$r = new Registry(array('reg'=>array()));       // wrong type here, must implement Config\Config
     }
     
  

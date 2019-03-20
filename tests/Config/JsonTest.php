@@ -27,11 +27,11 @@ class JsonTest extends \PHPUnit\Framework\TestCase
     }
     
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
-     */
     public function testReadonly()
     {
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\NotAuthorizedException::class);
+		
+		
         $o = new Json('{"prop":12}');
         $o->prop = 0;   // exception here, Json config is constructed readonly
     }

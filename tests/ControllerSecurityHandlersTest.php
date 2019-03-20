@@ -77,7 +77,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     protected $controller_stub;
     
     
-    public function setUp()
+    public function setUp() :void
     {
         // mock abstract methods only and call default constructor with required parameters (no user namespace)
         $this->controller_stub = $this->getMockBuilder(SHController::class)
@@ -125,11 +125,11 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
 
 	
-	/**
-	 * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidSecurityHandlerException
-	 */
     public function testMagicCallSH()
     {
+	 	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidSecurityHandlerException::class);
+		
+		
         // create application
         $app = new Application(
                 // controller
@@ -159,12 +159,12 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
 
 	
-	/**
-	 * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-	 */
     public function testMagicCallMethod()
     {
-        // create application
+	 	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);        
+		
+		
+		// create application
         $app = new Application(
                 // controller
                 $this->controller_stub, 
@@ -190,12 +190,11 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
 
 	
-	/**
-	 * @expectedException TestSHUnauthorizedCommandException
-	 * @expectedExceptionMessage command not authorized
-	 */
     public function testSHCheckKo()
     {
+		$this->expectException(TestSHUnauthorizedCommandException::class);
+		$this->expectExceptionMessage('command not authorized');
+		
 
         // create application
         $app = new Application(
@@ -227,13 +226,12 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
 
 	
-	/**
-	 * @expectedException TestSHUnauthorizedCommandException
-	 * @expectedExceptionMessage command not authorized
-	 */
     public function testSHCheckForwardKo()
     {
+		$this->expectException(TestSHUnauthorizedCommandException::class);
+		$this->expectExceptionMessage('command not authorized');
 
+		
         // create application
         $app = new Application(
                 // controller
@@ -378,13 +376,13 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
 
 	
-	/**
-	 * @expectedException TestSHUnauthorizedCommandException
-	 * @expectedExceptionMessage command not authorized
-	 */
     public function testSHCheckKoRequestModified()
     {
-        // create application
+		$this->expectException(TestSHUnauthorizedCommandException::class);
+		$this->expectExceptionMessage('command not authorized');
+
+		
+		// create application
         $app = new Application(
                 // controller
                 $this->controller_stub, 
@@ -418,12 +416,11 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
     
 
 	
-	/**
-	 * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidSecurityHandlerException
-	 */
     public function testSHError()
     {
+		$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidSecurityHandlerException::class);
 
+		
         // create application
         $app = new Application(
                 // controller

@@ -53,7 +53,7 @@ namespace Nettools\Simple_Framework\Tests {
         protected $controller_stub;
 
 
-        public function setUp()
+        public function setUp() :void
         {
             // mock abstract methods only and call default constructor with required parameters (app and user namespace)
             $this->controller_stub = $this->getMockBuilder(Controller::class)

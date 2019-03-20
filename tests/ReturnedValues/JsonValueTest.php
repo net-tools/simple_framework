@@ -28,11 +28,9 @@ class JsonValueTest extends \PHPUnit\Framework\TestCase
     }
     
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-     */
     public function testNoJson()
     {
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
         $v = new Json('abc'); // not json-formatted
     }
     

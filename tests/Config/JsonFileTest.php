@@ -11,7 +11,7 @@ use \Nettools\Simple_Framework\Config\JsonFile;
 
 class JsonFileTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp() :void
     {
         $f = fopen('/tmp/net-tools-phpunit-' . basename(__FILE__), 'w');
         fwrite($f, '{"prop1":"value1","prop2":false,"prop3":13}');
@@ -19,7 +19,7 @@ class JsonFileTest extends \PHPUnit\Framework\TestCase
     }
     
     
-    public function tearDown()
+    public function tearDown() :void
     {
         $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
         if ( file_exists($f) )
@@ -27,12 +27,12 @@ class JsonFileTest extends \PHPUnit\Framework\TestCase
     }
     
 
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
-     */
     public function testNoFile()
     {
-        // file doesn't exist : empty config ; config is read-only
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\NotAuthorizedException::class);
+
+		
+		// file doesn't exist : empty config ; config is read-only
         $o = new JsonFile('/nofile', true);
         $this->assertEquals('{}', $o->asJson());
         
@@ -41,12 +41,12 @@ class JsonFileTest extends \PHPUnit\Framework\TestCase
     }
     
 
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
-     */
     public function testFileReadonlyByDefault()
     {
-        // by default, the Config object is readonly
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\NotAuthorizedException::class);
+
+		
+		// by default, the Config object is readonly
         $f = '/tmp/net-tools-phpunit-' . basename(__FILE__);
         $o = new JsonFile($f);
         $o->prop4 = '4';    // exception here, setting a property is not allowed on readonly

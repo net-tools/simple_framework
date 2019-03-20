@@ -12,22 +12,22 @@ use \Nettools\Simple_Framework\Config\ConfigObject;
 
 class ObjectTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException TypeError
-     */
     public function testNoParameter()
     {
+     	$this->expectException(\TypeError::class);
+		
+		
         // no parameter to constructor
         $o = new ConfigObject();
     }
     
     
-    /**
-     * @expectedException TypeError
-     */
     public function testArray()
     {
-        // parameter is not a Stdclass object
+     	$this->expectException(\TypeError::class);
+
+		
+		// parameter is not a Stdclass object
         $o = new ConfigObject(array('property'=>'value'));
     }
     
@@ -40,12 +40,12 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
     }
     
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\NotAuthorizedException
-     */
     public function testObjectReadonly()
     {
-        $o = new ConfigObject((object) array('property'=>'value'));
+		$this->expectException(\Nettools\Simple_Framework\Exceptions\NotAuthorizedException::class);
+  
+		
+		$o = new ConfigObject((object) array('property'=>'value'));
         $this->assertEquals(true, $o->isReadOnly());
         $o->property = 'value2';    // always readonly
     }

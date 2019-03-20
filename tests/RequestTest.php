@@ -12,21 +12,21 @@ use \Nettools\Simple_Framework\Request;
 
 class RequestTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-     */
     public function testWrongParameters()
     {
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
+		
+		
         $r = new Request('param');      // parameter 1 must be an array of strings or an object litteral
     }
 
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-     */
     public function testWrongParameters2()
     {
-        $r = new Request(array('k'=>'param'), 'kk');      // parameter 2 must be an array
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
+
+		
+		$r = new Request(array('k'=>'param'), 'kk');      // parameter 2 must be an array
     }
     
 

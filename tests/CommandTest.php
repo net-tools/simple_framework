@@ -151,11 +151,11 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     }
     
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\CommandFailedException
-     */
     public function testFail()
     {
+		$this->expectException(\Nettools\Simple_Framework\Exceptions\CommandFailedException::class);
+		
+		
         $r = new Request(array('input0'=>'', 'input1'=>'value1', 'input2'=>'12'));
         $c = new TestFail();
         

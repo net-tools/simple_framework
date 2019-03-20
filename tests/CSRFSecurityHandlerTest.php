@@ -36,13 +36,13 @@ class CSRFSecurityHandlerTest extends \PHPUnit\Framework\TestCase
     }
     
 	
-	/**
-s	 * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidParameterException
-	 * @expectedExceptionMessage Method 'testMethod' does not exists in security handler
-	 */
     public function testMethodKo()
     {
-        $sh = new \Nettools\Simple_Framework\SecurityHandlers\CSRFSecurityHandler('__CSRF__', '__CSRF_VALUE__');
+	 	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
+	 	$this->expectedExceptionMessage("Method 'testMethod' does not exists in security handler");
+
+	
+		$sh = new \Nettools\Simple_Framework\SecurityHandlers\CSRFSecurityHandler('__CSRF__', '__CSRF_VALUE__');
 		
 		$intf = $this->getMockForAbstractClass(AbstractBrowserInterface::class);
 		$sh->getSecureRequestHelper()->setBrowserInterface($intf);

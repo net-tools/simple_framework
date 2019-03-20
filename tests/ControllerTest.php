@@ -100,7 +100,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     protected $controller_stub;
     
     
-    public function setUp()
+    public function setUp() :void
     {
         // mock abstract methods only and call default constructor with required parameters (no user namespace)
         $this->controller_stub = $this->getMockBuilder(Controller::class)
@@ -139,13 +139,13 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(NULL, $ret->getValue());
     }
     
-    
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidCommandException
-     */
-    public function testInexistantCommand()
+
+	public function testInexistantCommand()
     {
-        // this request will fail since the command does not exist
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidCommandException::class);
+
+		 
+		 // this request will fail since the command does not exist
         $r = new Request(array('cmd'=>'not_existing_command', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
@@ -153,36 +153,38 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     }
     
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\UnknownReturnException
-     */
-    public function testUndefinedReturnValue()
+
+	public function testUndefinedReturnValue()
     {
-        $r = new Request(array('cmd'=>'TestNoReturnCommand', 'input0'=>'', 'input1'=>'value1'));
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\UnknownReturnException::class);
+
+		
+		$r = new Request(array('cmd'=>'TestNoReturnCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
         $ret = $this->app->run();
     }
     
     
-    /**
-     * @expectedException TestCommandFailedException
-     */
     public function testFailedCommand()
     {
-        $r = new Request(array('cmd'=>'TestFailedCommand', 'input0'=>'', 'input1'=>'value1'));
+     	$this->expectException(TestCommandFailedException::class);
+
+		
+		$r = new Request(array('cmd'=>'TestFailedCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
         $ret = $this->app->run();
     }
      
     
-    /**
-     * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidRequestException
-     */
-    public function testInvalidRequestCommand()
+
+	public function testInvalidRequestCommand()
     {
-        $r = new Request(array('cmd'=>'TestInvalidRequestCommand', 'input0'=>'', 'input1'=>'value1'));
+     	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidRequestException::class);
+
+		
+		$r = new Request(array('cmd'=>'TestInvalidRequestCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
         $ret = $this->app->run();

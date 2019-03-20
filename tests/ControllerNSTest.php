@@ -54,7 +54,7 @@ namespace Nettools\Simple_Framework\Tests{
         protected $controller_stub;
 
 
-        public function setUp()
+        public function setUp() :void
         {
             // mock abstract methods only and call default constructor with required parameters (app and user namespace)
             $this->controller_stub = $this->getMockBuilder(Controller::class)
@@ -84,11 +84,11 @@ namespace Nettools\Simple_Framework\Tests{
         }
 
 
-        /**
-         * @expectedException \Nettools\Simple_Framework\Exceptions\InvalidCommandException
-         */
         public function testNamespacedInexistantCommand()
         {
+			$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidCommandException::class);
+			
+			
             $r = new Request(array('cmd'=>'TestNamespacedInexistantCommand', 'input0'=>'', 'input1'=>'value1'));
             $this->controller_stub->method('getRequest')->willReturn($r);
 
