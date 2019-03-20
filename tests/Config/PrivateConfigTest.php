@@ -19,7 +19,7 @@ class PrivateConfigTest extends \PHPUnit\Framework\TestCase
         $o = new ConfigObject((object)['secret1'=>'value1']);
 		
 		// this is not suitable !
-		$this->assertContains('secret1', print_r($o, true));
+		$this->assertStringContainsString('secret1', print_r($o, true));
 		
 		
 		$private = new PrivateConfig($o);
