@@ -13,7 +13,6 @@ else
 use \Nettools\Simple_Framework\WebApplication;
 use \Nettools\Simple_Framework\Registry;
 use \Nettools\Simple_Framework\Config\ConfigObject;
-use \Nettools\Simple_Framework\SecurityHandlers\CSRFSecurityHandler;
 
 
 

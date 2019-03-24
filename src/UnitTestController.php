@@ -13,9 +13,6 @@ namespace Nettools\Simple_Framework;
 
 
 
-use \Nettools\Core\Helpers\SecurityHelper;
-
-
 
 /**
  * Class for unit test application controller.

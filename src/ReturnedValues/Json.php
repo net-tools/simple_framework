@@ -13,9 +13,6 @@ namespace Nettools\Simple_Framework\ReturnedValues;
 
 
 
-use \Nettools\Core\Helpers\NetworkingHelper;
-
-
 
 /**
  * Class for a Json value returned by a command.

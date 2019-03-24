@@ -117,7 +117,7 @@ class WebController extends Controller {
 						echo "<input type=\"hidden\" name=\"$k\" value=\"" . htmlspecialchars($v) . "\">";
 					?>
 				</form>
-				<script language="javascript">
+				<script>
 				document.forms[0].submit();
 				</script>
 			</body>

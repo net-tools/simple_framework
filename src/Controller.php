@@ -285,6 +285,7 @@ abstract class Controller {
 	 */
 	public function __call($method, $args)
 	{
+	    $regs = [];
 		// check we are looking for a security handler
 		if ( preg_match('/^get([a-zA-Z0-9]*)SecurityHandler$/', $method, $regs) )
 		{
