@@ -4,7 +4,6 @@
 
 
 use \Nettools\Simple_Framework\Request;
-use \Nettools\Simple_Framework\Controller;
 use \Nettools\Simple_Framework\Command;
 use \Nettools\Simple_Framework\AuthenticatedCommand;
 use \Nettools\Simple_Framework\Application;
@@ -165,7 +164,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		
 		
 		// create application
-        $app = new Application(
+        new Application(
                 // controller
                 $this->controller_stub, 
             
@@ -257,7 +256,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 				'cmd'	=>'TestUnauthenticatedCommand'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
-        $ret = $app->run();
+        $app->run();
 	}
     
 
@@ -292,7 +291,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 				'_i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
-        $ret = $app->run();
+        $app->run();
 		
 		// successful check because inside command we forward the process to AuthenticatedCommand, which require authentication, provided here
 		$this->assertEquals(true, true);
@@ -330,7 +329,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 				'_i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
-        $ret = $app->run();
+        $app->run();
 		
 		// successfull check because _h and _i parameters exist in request
 		$this->assertEquals(true, true);
@@ -368,7 +367,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 				'i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
-        $ret = $app->run();
+        $app->run();
 		
 		// successfull check because h and i parameters exist in request
 		$this->assertEquals(true, true);
@@ -411,7 +410,7 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 				'_i'	=> 'ID CLIENT'
 			));
         $this->controller_stub->method('getRequest')->willReturn($r);
-        $ret = $app->run();
+        $app->run();
 	}
     
 

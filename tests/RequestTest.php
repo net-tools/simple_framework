@@ -17,7 +17,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 		
 		
-        $r = new Request('param');      // parameter 1 must be an array of strings or an object litteral
+        new Request('param');      // parameter 1 must be an array of strings or an object litteral
     }
 
     
@@ -26,7 +26,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 
 		
-		$r = new Request(array('k'=>'param'), 'kk');      // parameter 2 must be an array
+		new Request(array('k'=>'param'), 'kk');      // parameter 2 must be an array
     }
     
 

@@ -22,7 +22,6 @@ namespace Nettools\Simple_Framework\Tests{
 
     use \Nettools\Simple_Framework\Request;
     use \Nettools\Simple_Framework\Controller;
-    use \Nettools\Simple_Framework\Command;
     use \Nettools\Simple_Framework\Application;
     use \Nettools\Simple_Framework\Registry;
     use \Nettools\Simple_Framework\Config\ConfigObject;
@@ -92,7 +91,7 @@ namespace Nettools\Simple_Framework\Tests{
             $r = new Request(array('cmd'=>'TestNamespacedInexistantCommand', 'input0'=>'', 'input1'=>'value1'));
             $this->controller_stub->method('getRequest')->willReturn($r);
 
-            $ret = $this->app->run();
+            $this->app->run();
         }
 
 

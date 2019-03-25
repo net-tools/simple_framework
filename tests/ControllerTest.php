@@ -149,7 +149,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $r = new Request(array('cmd'=>'not_existing_command', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
-        $ret = $this->app->run();
+        $this->app->run();
     }
     
     
@@ -162,7 +162,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
 		$r = new Request(array('cmd'=>'TestNoReturnCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
-        $ret = $this->app->run();
+        $this->app->run();
     }
     
     
@@ -174,7 +174,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
 		$r = new Request(array('cmd'=>'TestFailedCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
-        $ret = $this->app->run();
+        $this->app->run();
     }
      
     
@@ -187,7 +187,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
 		$r = new Request(array('cmd'=>'TestInvalidRequestCommand', 'input0'=>'', 'input1'=>'value1'));
         $this->controller_stub->method('getRequest')->willReturn($r);
         
-        $ret = $this->app->run();
+        $this->app->run();
     }
      
     

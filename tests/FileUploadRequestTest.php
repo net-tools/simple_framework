@@ -17,7 +17,7 @@ class FileUploadRequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 		 
 		 
-        $r = new FileUploadRequest('/tmp/abc', UPLOAD_ERR_OK, 100, 'image/jpeg', 'myfile.txt');      // parameter 1 must be an int (upload error code)
+        new FileUploadRequest('/tmp/abc', UPLOAD_ERR_OK, 100, 'image/jpeg', 'myfile.txt');      // parameter 1 must be an int (upload error code)
     }
 
     
@@ -26,7 +26,7 @@ class FileUploadRequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 
 		
-		$r = new FileUploadRequest(UPLOAD_ERR_OK, 100, '/tmp/abc', 'image/jpeg', 'myfile.txt');      // parameter 2 must be a string (path to temp file uploaded)
+		new FileUploadRequest(UPLOAD_ERR_OK, 100, '/tmp/abc', 'image/jpeg', 'myfile.txt');      // parameter 2 must be a string (path to temp file uploaded)
     }
 
     
@@ -35,7 +35,7 @@ class FileUploadRequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 
 		
-		$r = new FileUploadRequest(UPLOAD_ERR_OK, '/tmp/abc', 'image/jpeg', 100, 'myfile.txt');      // parameter 3 must be an int (size of upload)
+		new FileUploadRequest(UPLOAD_ERR_OK, '/tmp/abc', 'image/jpeg', 100, 'myfile.txt');      // parameter 3 must be an int (size of upload)
     }
 
     
@@ -44,7 +44,7 @@ class FileUploadRequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 
 		
-		$r = new FileUploadRequest(UPLOAD_ERR_OK, '/tmp/abc', 100, 0, 'myfile.txt');                // parameter 4 must be a string (mime type)
+		new FileUploadRequest(UPLOAD_ERR_OK, '/tmp/abc', 100, 0, 'myfile.txt');                // parameter 4 must be a string (mime type)
     }
 
     
@@ -53,7 +53,7 @@ class FileUploadRequestTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 
 		
-		$r = new FileUploadRequest(UPLOAD_ERR_OK, '/tmp/abc', 100, 'image/jpeg', 500);              // parameter 5 must be a string (filename on client computer)
+		new FileUploadRequest(UPLOAD_ERR_OK, '/tmp/abc', 100, 'image/jpeg', 500);              // parameter 5 must be a string (filename on client computer)
     }
 
     

@@ -29,7 +29,7 @@ class RegistryTest extends \PHPUnit\Framework\TestCase
      	$this->expectException(\Nettools\Simple_Framework\Exceptions\InvalidParameterException::class);
 
 		
-		$r = new Registry(array('reg'=>array()));       // wrong type here, must implement Config\Config
+		new Registry(array('reg'=>array()));       // wrong type here, must implement Config\Config
     }
     
  

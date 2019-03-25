@@ -18,7 +18,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
 		
 		
         // no parameter to constructor
-        $o = new ConfigObject();
+        new ConfigObject();
     }
     
     
@@ -28,7 +28,7 @@ class ObjectTest extends \PHPUnit\Framework\TestCase
 
 		
 		// parameter is not a Stdclass object
-        $o = new ConfigObject(array('property'=>'value'));
+        new ConfigObject(array('property'=>'value'));
     }
     
     

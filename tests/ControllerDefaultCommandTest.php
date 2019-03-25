@@ -21,7 +21,6 @@ namespace Nettools\Simple_Framework\Tests {
     
     use \Nettools\Simple_Framework\Request;
     use \Nettools\Simple_Framework\Controller;
-    use \Nettools\Simple_Framework\Command;
     use \Nettools\Simple_Framework\Application;
     use \Nettools\Simple_Framework\Registry;
     use \Nettools\Simple_Framework\Config\ConfigObject;
