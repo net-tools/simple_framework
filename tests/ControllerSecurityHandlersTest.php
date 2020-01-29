@@ -109,7 +109,6 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
                                         ))
                     ))
             );
-
 		
 		// this request has no CMD parameter, so the default library command (defaultCommand class) will be used (it returns a NULL value)
         $this->assertEquals(1, count($this->controller_stub->getHandlers($app)));
@@ -120,6 +119,14 @@ class SHControllerTest extends \PHPUnit\Framework\TestCase
 		
 		// testing magic method to fetch security handlers
 		$this->assertInstanceOf(HashSecurityHandler::class, $this->controller_stub->getHashSecurityHandler());
+		
+		
+		// testing login : we pass a minimum context with the '_i' parameter required to compute the hash in HasSecurityHandler
+		$context = $this->controller_stub->login(['_i'=>'my id']);
+		
+		// and we check that there are more values in context : the hash
+		$this->assertEquals('my id', $context['_i']);
+		$this->assertNotNull($context['_h']);
 	}
     
 

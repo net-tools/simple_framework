@@ -15,6 +15,9 @@ namespace Nettools\Simple_Framework\SecurityHandlers;
 
 /**
  * Class for a Request security handler with a hash value in request parameter
+ * 
+ * The hash value is computed on a value, present in request and context (in Controller::login) ; the value must be named
+ * accordingly to the '_idparam' property content (default : 'i').
  */
 class HashSecurityHandler extends SecurityHandler {
 
