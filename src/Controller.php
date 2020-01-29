@@ -287,13 +287,13 @@ abstract class Controller {
 	{
 	    $regs = [];
 		// check we are looking for a security handler
-		if ( preg_match('/^get([a-zA-Z0-9]*)SecurityHandler$/', $method, $regs) )
+		if ( preg_match('/^get([a-zA-Z0-9]+)SecurityHandler$/', $method, $regs) )
 		{
 			$class = rtrim(__NAMESPACE__, '\\') . "\\SecurityHandlers\\{$regs[1]}SecurityHandler";
 			return $this->getSecurityHandler($class);
 		}
 		else
-			throw new Exceptions\InvalidParameterException("Unsupported magic call to method '$method' in '{" . __CLASS__ . "'");
+			throw new Exceptions\InvalidParameterException("Unsupported magic call to method '$method' in '" . __CLASS__ . "'");
 	}
 	
 	
@@ -323,6 +323,25 @@ abstract class Controller {
   
 	
 
+	/** 
+	 * Do login process
+	 *
+	 * @param string[] Associative array of parameters/values describing the login context ; may include a user ID, for example
+	 * @return string[] Associative array of parameters/values describing the login context ; may have been augmented with other security parameters (hashes, etc.) created during login process
+	 */
+	public function login(array $context)
+	{
+		foreach ( $this->_securityHandlers as $sech )
+			// initialize security handler with context
+			$sech->initialize($context);
+		
+		
+		// send back $context, which is passed by reference to any security handler 'initialize' method
+		return $context;
+	}
+	
+	
+	
     /** 
      * Execute a command and handle returned value accordingly
      *

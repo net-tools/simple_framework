@@ -152,9 +152,8 @@ class WebController extends Controller {
 	 */
 	public function login(array $context, $redirectCommand = NULL)
 	{
-		foreach ( $this->_securityHandlers as $sech )
-			// initialize security handler with context
-			$sech->initialize($context);
+		// call parent login method ; in Controller class, context parameter is not modified, but returned (if it's modified, we can't used an on-the-fly array when calling 'login')
+		$context = parent::login($context);
 		
 		
 		// if we want to redirect after login
