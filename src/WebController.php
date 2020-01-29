@@ -159,6 +159,8 @@ class WebController extends Controller {
 		// if we want to redirect after login
 		if ( $redirectCommand )
 			$this->sendPOST($redirectCommand, $context);
+		
+		return $context;
 	}
 	
 	
