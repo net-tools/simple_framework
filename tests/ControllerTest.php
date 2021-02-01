@@ -104,7 +104,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
     {
         // mock abstract methods only and call default constructor with required parameters (no user namespace)
         $this->controller_stub = $this->getMockBuilder(Controller::class)
-                    ->setMethods(['getRequest', 'handleCommandFailure', 'handleUnauthorizedCommand', '_outputValue'])
+                    ->onlyMethods(['getRequest', 'handleCommandFailure', 'handleUnauthorizedCommand', '_outputValue'])
                     ->setConstructorArgs([''])->getMock();
 
         // mock method called when a command fails (CommandFailedException thrown by user)
