@@ -71,7 +71,8 @@ class WebController extends Controller {
     protected function handleCommandFailure(Exceptions\CommandFailedException $e)
     {
         // si appel xmlhttp
-        if ( (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0) || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )
+		if ( (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0)) 
+			  || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )
             return new ReturnedValues\Json(json_encode(array('statut'=>false, 'message'=>$e->getMessage())), false);
         else
             return new ReturnedValues\PHP($e->getMessage(), false);
@@ -86,7 +87,8 @@ class WebController extends Controller {
     protected function handleUnauthorizedCommand()
 	{
         // si appel xmlhttp
-        if ( (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0) || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )
+		if ( (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'XMLHTTP') === 0)) 
+			  || (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === 0) )
             return new ReturnedValues\Json(json_encode(array('statut'=>false, 'message'=>'Request is not authorized.')), false);
         else
             return new ReturnedValues\PHP('Request is not authorized.', false);
