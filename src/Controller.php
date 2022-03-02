@@ -144,7 +144,9 @@ abstract class Controller {
 		
 		
 		// if no app config directive for securityhandlers list
-		if ( !$app->registry->exists('appcfg') || !$app->registry->appcfg->controller || !($handlers_obj = $app->registry->appcfg->controller->userSecurityHandlers) )
+		if ( $app->registry->exists('appcfg') && $app->registry->appcfg->controller && property_exists($app->registry->appcfg->controller, 'userSecurityHandlers') )
+			$handlers_obj = $app->registry->appcfg->controller->userSecurityHandlers;
+		else
 			$handlers_obj = (object)[];
 
 		

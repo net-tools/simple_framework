@@ -64,7 +64,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
         
-        return !is_null($this->_params[$k]);
+        return isset($this->_params[$k]);
     }
     
     
@@ -100,7 +100,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
 
-        return !is_null($this->_fileUploads[$k]);
+        return isset($this->_fileUploads[$k]);
 	}
     
     
@@ -136,7 +136,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
         
-        return $this->_params[$k];
+        return array_key_exists($k, $this->_params) ? $this->_params[$k] : null;
     }
     
     
@@ -152,7 +152,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
 
-        return $this->_fileUploads[$k];
+        return array_key_exists($k, $this->_fileUploads) ? $this->_fileUploads[$k] : null;
     }
 	
 	

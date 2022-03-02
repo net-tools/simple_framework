@@ -40,7 +40,7 @@ class ConfigObject extends \Nettools\Simple_Framework\Config\Config{
     
     public function get($k)
     {
-        return $this->_configObject->$k;
+        return property_exists($this->_configObject, $k) ? $this->_configObject->$k : null;
     }
 
     
