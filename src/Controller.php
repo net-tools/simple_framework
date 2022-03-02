@@ -113,7 +113,7 @@ abstract class Controller {
         // if command not in request (CMD parameter not set)
         if ( !$cmd )
             // if no app config directive for default command
-            if ( !$app->registry->exists('appcfg') || !$app->registry->appcfg->controller || !($cmd = $app->registry->appcfg->controller->userDefaultCommand) )
+            if ( !$app->registry->exists('appcfg') || !$app->registry->appcfg->controller || !property_exists($app->registry->appcfg->controller, 'userDefaultCommand') || !($cmd = $app->registry->appcfg->controller->userDefaultCommand) )
             {
                 $ns = __NAMESPACE__;
                 $cmd = 'defaultCommand';
