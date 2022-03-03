@@ -64,7 +64,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
         
-        return isset($this->_params[$k]);
+        return !empty($this->_params[$k]);
     }
     
     
@@ -100,7 +100,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
 
-        return isset($this->_fileUploads[$k]);
+        return !empty($this->_fileUploads[$k]);
 	}
     
     
