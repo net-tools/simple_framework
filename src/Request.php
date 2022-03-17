@@ -64,7 +64,7 @@ class Request {
         if ( !is_string($k) )
             throw new Exceptions\InvalidParameterException("'k' parameter is not a string.");
         
-        return !empty($this->_params[$k]);
+        return array_key_exists($k, $this->_params);
     }
     
     
