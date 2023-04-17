@@ -3,7 +3,7 @@
 
 namespace NT\Tests {
 
-    class ControllerNSTest extends \Nettools\Simple_Framework\Command 
+    class TestNamespacedCommand extends \Nettools\Simple_Framework\Command 
     {
          public function execute(\Nettools\Simple_Framework\Request $req, \Nettools\Simple_Framework\Application $app)
          {
