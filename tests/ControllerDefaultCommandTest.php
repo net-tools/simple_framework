@@ -46,7 +46,7 @@ namespace Nettools\Simple_Framework\Tests {
 
 
 
-    class NSDefaultControllerTest extends \PHPUnit\Framework\TestCase
+    class ControllerDefaultCommandTest extends \PHPUnit\Framework\TestCase
     {
         protected $app;
         protected $controller_stub;

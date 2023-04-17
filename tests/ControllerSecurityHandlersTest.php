@@ -71,7 +71,7 @@ class TestUnauthenticatedCommand extends Command
 
 
 
-class SHControllerTest extends \PHPUnit\Framework\TestCase
+class ControllerSecurityHandlersTest extends \PHPUnit\Framework\TestCase
 {
     protected $controller_stub;
     

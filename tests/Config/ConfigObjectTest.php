@@ -10,7 +10,7 @@ use \Nettools\Simple_Framework\Config\ConfigObject;
 
 
 
-class ObjectTest extends \PHPUnit\Framework\TestCase
+class ConfigObjectTest extends \PHPUnit\Framework\TestCase
 {
     public function testNoParameter()
     {

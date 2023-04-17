@@ -3,7 +3,7 @@
 
 namespace NT\Tests {
 
-    class TestNamespacedCommand extends \Nettools\Simple_Framework\Command 
+    class ControllerNSTest extends \Nettools\Simple_Framework\Command 
     {
          public function execute(\Nettools\Simple_Framework\Request $req, \Nettools\Simple_Framework\Application $app)
          {
@@ -47,7 +47,7 @@ namespace Nettools\Simple_Framework\Tests{
 
 
 
-    class NSControllerTest extends \PHPUnit\Framework\TestCase
+    class ControllerNSTest extends \PHPUnit\Framework\TestCase
     {
         protected $app;
         protected $controller_stub;
