@@ -240,10 +240,6 @@ However, it **does not** prevent the request to be issued several times (the tok
 In future releases, CSRF security features and nonce token may be implemented.
 
 
-## API Reference
-
-To read the entire API reference, please refer to the PHPDoc here : http://net-tools.ovh/api-reference/net-tools/Nettools/Simple_Framework.html
-
 
 ## PHPUnit
 
