@@ -74,6 +74,7 @@ $output = $app->run();
 		catch (\Nettools\Core\Helpers\SecureRequestHelper\CSRFException $e)
 		{
 			$cookie = '__not_initialized__';
+			$hashedCookie = '__not_initialized__';
 		}
 		?>
         <li><a href="?cmd=initCSRF">Initialize CSRF security layer</a></li>
