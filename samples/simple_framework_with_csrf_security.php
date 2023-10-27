@@ -37,7 +37,7 @@ $app = new WebApplication(
                                     (object)array(
                                         'controller'    => (object)array(
 																'userSecurityHandlers' => (object)[
-																	'CSRFSecurityHandler'	=> ['_myCSRF_', '_CSRF_value_', __FILE__]
+																	'CSRFSecurityHandler'	=> ['_myCSRF_', '_CSRF_value_']
 																]
                                                             )
                                     )
