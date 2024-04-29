@@ -6,6 +6,16 @@
 use \Nettools\Core\Helpers\SecureRequestHelper\AbstractBrowserInterface;
 
 
+class BI extends AbstractBrowserInterface 
+{
+	public function setCookie($name, $value, $expires, $domain) {}
+
+	public function deleteCookie($name, $domain) {}
+
+	public function getCookie($name) {}
+}
+
+
 
     
 class CSRFSecurityHandlerTest extends \PHPUnit\Framework\TestCase
@@ -14,7 +24,7 @@ class CSRFSecurityHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $sh = new \Nettools\Simple_Framework\SecurityHandlers\CSRFSecurityHandler('__CSRF__', '__CSRF_VALUE__');
 		
-		$intf = $this->getMockForAbstractClass(AbstractBrowserInterface::class);
+		$intf = $this->getMockBuilder(BI::class)->onlyMethods(['setCookie', 'deleteCookie', 'getCookie'])->getMock();
 		$intf->expects($this->once())->method('getCookie')->willReturn('abcdef');
 		$intf->expects($this->once())->method('deleteCookie');
 		$intf->expects($this->once())->method('setCookie');
@@ -37,7 +47,7 @@ class CSRFSecurityHandlerTest extends \PHPUnit\Framework\TestCase
 	
 		$sh = new \Nettools\Simple_Framework\SecurityHandlers\CSRFSecurityHandler('__CSRF__', '__CSRF_VALUE__');
 		
-		$intf = $this->getMockForAbstractClass(AbstractBrowserInterface::class);
+		$intf = $this->getMockBuilder(BI::class)->onlyMethods(['setCookie', 'deleteCookie', 'getCookie'])->getMock();
 		$sh->getSecureRequestHelper()->setBrowserInterface($intf);
 		
 		$sh->testMethod();	// asserting an exception is thrown because testMethod is not a method of $sh nor its underlying CSRF layer object
