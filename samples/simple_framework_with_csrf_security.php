@@ -58,28 +58,23 @@ $output = $app->run();
     <title>Simple_Framework sample</title>
 </head>
 <body>
-    <p>In this sample, we have 5 commands ; the first one must be launched before the second one and third one, so that the CSRF security
+    <p>In this sample, we have 4 commands ; the first one must be launched before the second one and third one, so that the CSRF security
 		layer is initialized (in real world, this should be done after successful authentication of user login). The second
-		one has required security parameters (CSRF) to authenticate the request, the third one has the same required security parameters
-		but the CSRF submitted value (double CSRF cookie submit pattern) is a hashed value of the real CSRF cookie value, thus preventing
-		disclosure of cookie in GET url, browser history, etc. The fourth one is missing those parameters and will fail ; the fifth command
+		one has required security parameters (CSRF) to authenticate the request, the third one is missing those parameters and will fail ; the fourth command
 		revokes the CSRF layer and subsequent commands will fail.</p>
     <ul>
 		<?php
 		try
 		{
 			$cookie = $app->controller->getCSRFSecurityHandler()->getCSRFCookie();
-			$hashedCookie = $app->controller->getCSRFSecurityHandler()->getHashedCSRFCookie();
 		}
 		catch (\Nettools\Core\Helpers\SecureRequestHelper\CSRFException $e)
 		{
 			$cookie = '__not_initialized__';
-			$hashedCookie = '__not_initialized__';
 		}
 		?>
         <li><a href="?cmd=initCSRF">Initialize CSRF security layer</a></li>
         <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=<?php echo $cookie; ?>&value=test+value">Execute command 'authenticatedCSRFRequest'</a></li>
-        <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=<?php echo $hashedCookie; ?>&value=test+value">Execute command 'authenticatedCSRFRequest' with hashed CSRF submitted value</a></li>
         <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=wrong_value&value=test+value">Execute command 'authenticatedCSRFRequest' with wrong parameters</a></li>
         <li><a href="?cmd=revokeCSRF">Revoke CSRF security layer</a></li>
     </ul>
