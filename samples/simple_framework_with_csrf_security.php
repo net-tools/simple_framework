@@ -74,8 +74,20 @@ $output = $app->run();
 		}
 		?>
         <li><a href="?cmd=initCSRF">Initialize CSRF security layer</a></li>
-        <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=<?php echo $cookie; ?>&value=test+value">Execute command 'authenticatedCSRFRequest'</a></li>
-        <li><a href="?cmd=authenticatedCSRFRequest&_CSRF_value_=wrong_value&value=test+value">Execute command 'authenticatedCSRFRequest' with wrong parameters</a></li>
+        <li><form method="post">
+				<input type="text" name="value" value="test+value">
+				<input type="hidden" name="cmd" value="authenticatedCSRFRequest">
+				<input type="hidden" name="_CSRF_value_" value="<?php echo $cookie; ?>">
+				<input type="submit" value="Execute command 'authenticatedCSRFRequest'">
+			</form>
+		</li>
+        <li><form method="post">
+				<input type="text" name="value" value="test+value">
+				<input type="hidden" name="cmd" value="authenticatedCSRFRequest">
+				<input type="hidden" name="_CSRF_value_" value="wrong_value">
+				<input type="submit" value="Execute command 'authenticatedCSRFRequest' with wrong CSRF values">
+			</form>
+		</li>
         <li><a href="?cmd=revokeCSRF">Revoke CSRF security layer</a></li>
     </ul>
     <div>
