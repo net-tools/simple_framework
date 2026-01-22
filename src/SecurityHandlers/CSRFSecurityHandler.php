@@ -100,7 +100,13 @@ class CSRFSecurityHandler extends SecurityHandler {
 	{
 		try 
 		{
-			$this->_sec->authorizeCSRF($req->getRequestAsArray());
+			// GET method ignore CSRF
+			if ( $req->getMethod() != 'GET' )
+				$this->_sec->authorizeCSRF($req->getRequestAsArray());
+			else
+				return $this->_sec->testCSRFCookie();
+			
+			
 			return true;
 		}
 		catch (CSRFException $e)

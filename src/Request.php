@@ -27,6 +27,12 @@ class Request {
      * @var FileUploadRequest[] Associative array of FileUploadRequest objects describing file uploads
      */
     protected $_fileUploads = NULL;
+	
+	
+	/** 
+	 * @var string method Request method (for web apps, GET/POST/etc.)
+	 */
+	protected $_method = NULL;
     
     
     /** 
@@ -36,7 +42,7 @@ class Request {
      * @param FileUploadRequest[] $fileUploads Associative array of FileUploadRequest objects describing file uploads
      * @throws Exceptions\InvalidParameterException Thrown if parameter $params or $fileUploads parameters are not arrays
      */
-    public function __construct($params, $fileUploads = array())
+    public function __construct($params, $fileUploads = array(), $method = NULL)
     {
         if ( !is_array($params) && !(is_object($params) && (get_class($params) == 'stdClass')) )
             throw new Exceptions\InvalidParameterException("'params' parameter is not an array or an object litteral.");
@@ -49,6 +55,7 @@ class Request {
 			$this->_params = (array)$params;
 		
         $this->_fileUploads = $fileUploads;
+		$this->_method = $method;
     }
     
     
@@ -164,6 +171,17 @@ class Request {
 	public function getRequestAsArray()
 	{
 		return $this->_params;
+	}
+	
+	
+	/**
+	 * Get request method
+	 *
+	 * @return string
+	 */
+	public function getMethod()
+	{
+		return $this->_method;
 	}
     
     

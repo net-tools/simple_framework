@@ -55,7 +55,7 @@ class WebController extends Controller {
 		foreach ( $_FILES as $k=>$file )
 			$files[$k] = new FileUploadRequest($file['error'], $file['tmp_name'], $file['size'], $file['type'], $file['name']);
         
-        return new Request($_REQUEST, $files);
+        return new Request($_REQUEST, $files, $this->getHttpVerb());
     }
     
     
