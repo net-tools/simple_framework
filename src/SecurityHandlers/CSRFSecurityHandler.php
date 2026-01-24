@@ -12,7 +12,7 @@ namespace Nettools\Simple_Framework\SecurityHandlers;
 
 
 use \Nettools\Core\Helpers\SecureRequestHelper;
-use \Nettools\Core\Helpers\SecureRequestHelper\CSRFException;
+use \Nettools\Core\Helpers\CSRFException;
 use \Nettools\Simple_Framework\Exceptions\InvalidParameterException;
 
 

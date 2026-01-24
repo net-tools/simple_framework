@@ -68,7 +68,7 @@ $output = $app->run();
 		{
 			$cookie = $app->controller->getCSRFSecurityHandler()->getCSRFCookie();
 		}
-		catch (\Nettools\Core\Helpers\SecureRequestHelper\CSRFException $e)
+		catch (\Nettools\Core\Helpers\CSRFException $e)
 		{
 			$cookie = '__not_initialized__';
 		}
