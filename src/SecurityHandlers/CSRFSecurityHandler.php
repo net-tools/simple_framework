@@ -38,7 +38,7 @@ class CSRFSecurityHandler extends SecurityHandler {
 	 */
 	public function __construct($csrf_cookiename = '_CSRF_', $csrf_submittedvaluename = '_FORM_CSRF_')
 	{
-		$this->_sec = new SecureRequestHelper($csrf_cookiename, $csrf_submittedvaluename);
+		$this->_sec = new SecureRequestHelper($csrf_cookiename, $csrf_submittedvaluename, $_SERVER['PHP_SELF']);
 	}
 	
 	
